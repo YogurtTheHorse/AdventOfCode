@@ -38,19 +38,22 @@ public partial class AdventFetcher
         Helpers.Id
     ));
 
-    public async Task<string> GetInput(InputDescription inputDescription)
+    public async Task<string> GetInput(InputDescription inputDescription, bool ignoreFiles = false)
     {
         var directory = $"inputs/year{Year}/day{Day}";
         var filepath = $"{directory}/{inputDescription.FileName}";
-
-        if (File.Exists(filepath))
+        
+        if (!ignoreFiles)
         {
-            return (await File.ReadAllTextAsync(filepath)).Replace("\r", string.Empty);
-        }
+            if (File.Exists(filepath))
+            {
+                return (await File.ReadAllTextAsync(filepath)).Replace("\r", string.Empty);
+            }
 
-        if (inputDescription.Url is null)
-        {
-            throw new FileNotFoundException("Test input not found", filepath);
+            if (inputDescription.Url is null)
+            {
+                throw new FileNotFoundException("Test input not found", filepath);
+            }
         }
 
         Directory.CreateDirectory(directory);
@@ -62,28 +65,36 @@ public partial class AdventFetcher
         return result.Replace("\r", string.Empty);
     }
 
-    public async Task<bool?> IsTestCorrect(string answer)
+    public async Task<bool?> IsTestCorrect(string answer, bool forFirstDay)
     {
-        var task = await GetInput(new InputDescription(
-            "task.txt",
-            $"https://adventofcode.com/{Year}/day/{Day}",
-            Helpers.Id
-        ));
+        var task = await GetTwoDaysTask(forFirstDay);
 
         return task.Contains($">{answer}<");
     }
 
-    public async Task<bool?> IsFullCorrect(string answer)
+    public async Task<bool?> IsFullCorrect(string answer, bool forFirstTask)
     {
-        var task = await GetInput(new InputDescription(
-            "task.txt",
-            $"https://adventofcode.com/{Year}/day/{Day}",
-            Helpers.Id
-        ));
+        var task = await GetTwoDaysTask(forFirstTask);
 
         return task.Contains("Your puzzle answer was ") 
             ? task.Contains($">{answer}<") 
             : null;
+    }
+
+    private async Task<string> GetTwoDaysTask(bool forFirstDay)
+    {
+        var task = await GetTask(false);
+
+        return forFirstDay || task.Contains("--- Part Two ---") 
+            ? task 
+            : await GetTask(true);
+
+        async Task<string> GetTask(bool ignoreFiles) => await GetInput(new InputDescription(
+                "task.txt",
+                $"https://adventofcode.com/{Year}/day/{Day}",
+                Helpers.Id
+            ),
+            ignoreFiles);
     }
 
     [GeneratedRegex(@"<pre><code>(.*?)<\/code><\/pre>", RegexOptions.Singleline)]

@@ -9,7 +9,11 @@ public static class Parsing
         coll.Select(long.Parse).ToArray();
 
     public static int[] ToInt(this IEnumerable<string> coll) =>
-        coll.Select(int.Parse).ToArray();
+        coll.Select(ToInt).ToArray();
+
+    public static int ToInt(this string coll) => int.Parse(coll);
 
     public static (T, T) Unpack2<T>(this IList<T> l) => (l[0], l[1]);
+
+    public static (T, T, T) Unpack3<T>(this IList<T> l) => (l[0], l[1], l[2]);
 }

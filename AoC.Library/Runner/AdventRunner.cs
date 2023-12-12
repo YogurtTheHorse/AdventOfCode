@@ -43,7 +43,7 @@ public class AdventRunner
                 _fetcher.Year = dateInfo.Year;
                 _fetcher.Day = dateInfo.Day;
 
-                var runConfigs = await GetRunConfig(part, config.Type, solutionType);
+                var runConfigs = await GetRunConfigs(part, config.Type, solutionType);
 
                 foreach (var runConfig in runConfigs)
                 {
@@ -51,7 +51,8 @@ public class AdventRunner
 
                     await Run(
                         runConfig,
-                        config.PrintExample.HasFlag(runConfig.RunType),
+                        config.PrintInput.HasFlag(runConfig.RunType),
+                        config.PrintOutput.HasFlag(runConfig.RunType),
                         part,
                         solution!
                     );
@@ -64,7 +65,7 @@ public class AdventRunner
         }
     }
 
-    private async Task Run(RunConfig config, bool printInput, AdventParts part, AdventSolution solution)
+    private async Task Run(RunConfig config, bool printInput, bool printOutput, AdventParts part, AdventSolution solution)
     {
         Func<object> run = part == AdventParts.PartOne
             ? solution.SolvePartOne
@@ -82,7 +83,7 @@ public class AdventRunner
 
         try
         {
-            solution.Input = config.Input;
+            solution.Input = new AdventInput(config.Input, printOutput);
             var result = run().ToString()!;
 
             Console.Write("Answer is ");
@@ -131,7 +132,7 @@ public class AdventRunner
         }
     }
 
-    private async Task<RunConfig[]> GetRunConfig(AdventParts part, RunType type, Type solution)
+    private async Task<RunConfig[]> GetRunConfigs(AdventParts part, RunType type, Type solution)
     {
         var methodInfo = solution.GetMethod(part == AdventParts.PartOne
             ? nameof(AdventSolution.SolvePartOne)
@@ -161,7 +162,7 @@ public class AdventRunner
                     await _fetcher.GetExampleInput(),
                     "example input",
                     RunType.Example,
-                    _fetcher.IsTestCorrect
+                    s => _fetcher.IsTestCorrect(s, part == AdventParts.PartOne)
                 ));
             }
         }
@@ -172,7 +173,7 @@ public class AdventRunner
                 await _fetcher.GetFullInput(),
                 "full input",
                 RunType.Full,
-                _fetcher.IsFullCorrect
+                s => _fetcher.IsFullCorrect(s, part == AdventParts.PartOne)
             ));
         }
 
