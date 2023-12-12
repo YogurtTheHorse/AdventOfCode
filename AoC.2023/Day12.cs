@@ -21,13 +21,13 @@ public class Day12 : AdventSolution
     private long[,]? _globalCache;
     private readonly int[] _damagedLeft = new int[300];
 
-    public override object SolvePartOne(AdventInput input) => input
+    public override object SolvePartOne() => Input
         .Lines
         .Select(SolveLine)
         .Sum();
 
     [CustomRun("??????????????????????????????????????????????????????? 1,2,1")]
-    public override object SolvePartSecond(AdventInput input) => input
+    public override object SolvePartSecond() => Input
         .Lines
         .Select(Expand)
         .Select(SolveLine)

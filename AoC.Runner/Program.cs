@@ -6,4 +6,4 @@ using var session = new AdventSession();
 var fetcher = new AdventFetcher(session);
 var runner = new AdventRunner(fetcher, typeof(Day12).Assembly);
 
-await runner.FindAndRunToday();
+await runner.FindAndRun(day: 10);

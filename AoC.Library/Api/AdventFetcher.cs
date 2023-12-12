@@ -7,8 +7,8 @@ public partial class AdventFetcher
 {
     private readonly AdventSession _session;
     
-    private int Year { get; set; }
-    private int Day { get; set; }
+    public int Year { get; set; }
+    public int Day { get; set; }
 
     public AdventFetcher(AdventSession session, int? year = null, int? day = null)
     {

@@ -2,7 +2,9 @@ namespace AoC.Library.Runner;
 
 public abstract class AdventSolution
 {
-    public abstract object SolvePartOne(AdventInput input);
+    public AdventInput Input { get; set; }
+    
+    public abstract object SolvePartOne();
 
-    public abstract object SolvePartSecond(AdventInput input);
+    public abstract object SolvePartSecond();
 }

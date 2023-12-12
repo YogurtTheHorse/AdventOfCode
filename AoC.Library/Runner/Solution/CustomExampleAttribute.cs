@@ -1,6 +1,6 @@
 namespace AoC.Library.Runner;
 
-[AttributeUsage(AttributeTargets.Class)]
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class CustomExampleAttribute : Attribute
 {
     public string Input { get; }

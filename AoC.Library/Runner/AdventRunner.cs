@@ -19,8 +19,9 @@ public class AdventRunner
     public async Task FindAndRunToday(RunnerConfig? config = null) =>
         await FindAndRun(config ?? new RunnerConfig(), DateTime.Now.Year, DateTime.Now.Day);
 
-    public async Task FindAndRun(RunnerConfig config, int? year = null, int? day = null)
+    public async Task FindAndRun(RunnerConfig? config = null, int? year = null, int? day = null)
     {
+        config ??= new RunnerConfig();
         var solutionTypes = GetSolutions()
             .Where(s => SolutionTypeMatch(s, year, day))
             .ToArray();
@@ -32,13 +33,22 @@ public class AdventRunner
                      })
             {
                 if (!config.Parts.HasFlag(part)) continue;
-                if (!GetReadyParts(solutionType).HasFlag(part)) continue;
+
+                var dateInfo = solutionType.GetCustomAttribute<DateInfoAttribute>();
+                
+                if (dateInfo is null) continue;
+                
+                if (!dateInfo.PartsReady.HasFlag(part)) continue;
+                _fetcher.Year = dateInfo.Year;
+                _fetcher.Day = dateInfo.Day;
 
                 var runConfigs = await GetRunConfig(part, config.Type, solutionType);
 
                 foreach (var runConfig in runConfigs)
                 {
                     var solution = Activator.CreateInstance(solutionType) as AdventSolution;
+                    
+                    
                     await Run(
                         runConfig,
                         config.PrintExample.HasFlag(runConfig.RunType),
@@ -56,7 +66,7 @@ public class AdventRunner
 
     private async Task Run(RunConfig config, bool printInput, AdventParts part, AdventSolution solution)
     {
-        Func<AdventInput, object> run = part == AdventParts.PartOne
+        Func<object> run = part == AdventParts.PartOne
             ? solution.SolvePartOne
             : solution.SolvePartSecond;
 
@@ -72,7 +82,8 @@ public class AdventRunner
 
         try
         {
-            var result = run(config.Input).ToString()!;
+            solution.Input = config.Input;
+            var result = run().ToString()!;
 
             Console.Write("Answer is ");
 
@@ -185,13 +196,6 @@ public class AdventRunner
         var dateInfo = solutionType.GetCustomAttribute<DateInfoAttribute>();
 
         return (year is null || year.Value == dateInfo?.Year) && (day is null || day.Value == dateInfo?.Day);
-    }
-
-    private AdventParts GetReadyParts(Type solutionType)
-    {
-        var dateInfo = solutionType.GetCustomAttribute<DateInfoAttribute>();
-
-        return dateInfo?.PartsReady ?? AdventParts.None;
     }
 
     private IEnumerable<Type> GetSolutions() =>
