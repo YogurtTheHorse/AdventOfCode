@@ -62,7 +62,7 @@ public partial class AdventFetcher
         return result.Replace("\r", string.Empty);
     }
 
-    public async Task<bool> IsTestCorrect(string answer)
+    public async Task<bool?> IsTestCorrect(string answer)
     {
         var task = await GetInput(new InputDescription(
             "task.txt",
@@ -70,7 +70,20 @@ public partial class AdventFetcher
             Helpers.Id
         ));
 
-        return task.Contains($"<pre><code>{answer}<pre><code>");
+        return task.Contains($">{answer}<");
+    }
+
+    public async Task<bool?> IsFullCorrect(string answer)
+    {
+        var task = await GetInput(new InputDescription(
+            "task.txt",
+            $"https://adventofcode.com/{Year}/day/{Day}",
+            Helpers.Id
+        ));
+
+        return task.Contains("Your puzzle answer was ") 
+            ? task.Contains($">{answer}<") 
+            : null;
     }
 
     [GeneratedRegex(@"<pre><code>(.*?)<\/code><\/pre>", RegexOptions.Singleline)]

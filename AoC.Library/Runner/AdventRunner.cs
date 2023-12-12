@@ -35,10 +35,11 @@ public class AdventRunner
                 if (!config.Parts.HasFlag(part)) continue;
 
                 var dateInfo = solutionType.GetCustomAttribute<DateInfoAttribute>();
-                
+
                 if (dateInfo is null) continue;
-                
+
                 if (!dateInfo.PartsReady.HasFlag(part)) continue;
+
                 _fetcher.Year = dateInfo.Year;
                 _fetcher.Day = dateInfo.Day;
 
@@ -47,8 +48,7 @@ public class AdventRunner
                 foreach (var runConfig in runConfigs)
                 {
                     var solution = Activator.CreateInstance(solutionType) as AdventSolution;
-                    
-                    
+
                     await Run(
                         runConfig,
                         config.PrintExample.HasFlag(runConfig.RunType),
@@ -86,8 +86,12 @@ public class AdventRunner
             var result = run().ToString()!;
 
             Console.Write("Answer is ");
+            var checkResult = config.Check is not null
+                ? await config.Check(result)
+                : null;
 
-            if (config.Check is null)
+
+            if (checkResult is null)
             {
                 resultColor = Color.Yellow;
                 WriteAnswer(result);
@@ -95,7 +99,7 @@ public class AdventRunner
             }
             else
             {
-                var (isCorrect, real) = await config.Check(result);
+                var (isCorrect, real) = checkResult.Value;
 
                 resultColor = isCorrect ? Color.Green : Color.Red;
 
@@ -149,7 +153,6 @@ public class AdventRunner
                     part == AdventParts.PartOne
                         ? customExample.AnswerOne
                         : customExample.AnswerTwo
-                    
                 ));
             }
             else
@@ -165,7 +168,12 @@ public class AdventRunner
 
         if (type.HasFlag(RunType.Full))
         {
-            configs.Add(new RunConfig(await _fetcher.GetFullInput(), "full input", RunType.Full));
+            configs.Add(new RunConfig(
+                await _fetcher.GetFullInput(),
+                "full input",
+                RunType.Full,
+                _fetcher.IsFullCorrect
+            ));
         }
 
         if (type.HasFlag(RunType.Custom))
