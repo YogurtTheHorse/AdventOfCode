@@ -16,8 +16,14 @@ public class AdventRunner
         _fetcher = fetcher;
     }
 
-    public async Task FindAndRunToday(RunnerConfig? config = null) =>
-        await FindAndRun(config ?? new RunnerConfig(), DateTime.Now.Year, DateTime.Now.Day);
+    public async Task FindAndRunLatest(RunnerConfig? config = null)
+    {
+        var dateInfo = GetSolutions()
+            .Select(s => (s, s.GetCustomAttribute<DateInfoAttribute>()!))
+            .MaxBy(s => s.Item2.Year * 1000 + s.Item2.Day)
+            .Item2;
+        await FindAndRun(config ?? new RunnerConfig(), dateInfo.Year, dateInfo.Day);
+    }
 
     public async Task FindAndRun(RunnerConfig? config = null, int? year = null, int? day = null)
     {
