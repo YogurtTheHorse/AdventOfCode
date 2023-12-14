@@ -15,5 +15,22 @@ public record AdventInput(string Raw, bool Print)
 
     public int Height => Lines.Length;
 
+    public char[,] SquareMap() => SquareMap(Helpers.Id);
+
+    public T[,] SquareMap<T>(Func<char, T> map)
+    {
+        var arr = new T[Width, Height];
+
+        for (int x = 0; x < Width; x++)
+        for (int y = 0; y < Height; y++)
+            arr[x, y] = map(this[x, y]);
+
+        return arr;
+    }
+
+    public char this[int x, int y] => Lines[y][x];
+
+    public string this[int y] => Lines[y];
+
     public static implicit operator AdventInput(string s) => new(s, false);
 }
