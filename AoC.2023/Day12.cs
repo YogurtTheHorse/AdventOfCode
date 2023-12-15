@@ -21,6 +21,7 @@ public class Day12 : AdventSolution
     private long[,]? _globalCache;
     private readonly int[] _damagedLeft = new int[300];
 
+    [CustomRun("????? 2,1")]
     public override object SolvePartOne() => Input
         .Lines
         .Select(SolveLine)
@@ -44,7 +45,7 @@ public class Day12 : AdventSolution
 
     private long SolveLine(string s)
     {
-        // Console.Write($"{s} -> ");
+        Write($"{s} -> ");
 
         var (tilesString, groupsString) = s.SmartSplit().Unpack2();
         var groups = groupsString.SmartSplit(",").ToInt();
@@ -61,7 +62,7 @@ public class Day12 : AdventSolution
 
         long localRes = Solve(tilesString, groups, 0, 0, _damagedLeft, CreateCache());
 
-        // Console.WriteLine($"{localRes}");
+        WriteLine($"{localRes}");
 
         return localRes;
     }
