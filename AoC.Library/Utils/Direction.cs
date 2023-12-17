@@ -2,12 +2,12 @@ namespace AoC.Library.Utils;
 
 public enum Direction
 {
-    None,
+    None = 0,
     
-    Up,
-    Right,
-    Down,
-    Left
+    Up = 1,
+    Right = 2,
+    Down = 3,
+    Left = 4
 }
 
 public static class DirectionUtils

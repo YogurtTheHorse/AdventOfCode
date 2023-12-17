@@ -4,7 +4,7 @@ using AoC.Library.Utils;
 
 namespace AoC._2023;
 
-[DateInfo(2023, 15, AdventParts.PartTwo)]
+[DateInfo(2023, 15, AdventParts.All)]
 public class Day15 : AdventSolution
 {
     public override object SolvePartOne() => Input.Raw.SmartSplit(",").Select(Hash).Sum();

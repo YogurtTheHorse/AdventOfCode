@@ -8,7 +8,7 @@ public record Point(int X, int Y)
         (X + width) % width,
         (Y + height) % height
     );
-    
+
     public static Point Up => new(0, -1);
 
     public static Point Right => new(1, 0);
@@ -34,4 +34,6 @@ public record Point(int X, int Y)
     public static Point operator +(Point a, Point b) => new(a.X + b.X, a.Y + b.Y);
 
     public static Point operator -(Point a, Point b) => new(a.X - b.X, a.Y - b.Y);
+
+    public static Point operator *(Point a, int v) => new(a.X * v, a.Y * v);
 }

@@ -3,7 +3,7 @@ using AoC.Library.Utils;
 
 namespace AoC._2023;
 
-[DateInfo(2023, 16, AdventParts.PartTwo)]
+[DateInfo(2023, 16, AdventParts.All)]
 public class Day16 : AdventSolution
 {
     public override object SolvePartOne() => Solve(new((0, 0), Direction.Right));
