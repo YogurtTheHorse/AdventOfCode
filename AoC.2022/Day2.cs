@@ -11,7 +11,7 @@ public class Day2 : AdventSolution
         .Select(SolveLinePart1)
         .Sum();
 
-    public override object SolvePartSecond()  => Input
+    public override object SolvePartTwo()  => Input
         .Lines
         .Select(SolveLinePart2)
         .Sum();

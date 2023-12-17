@@ -75,7 +75,7 @@ public class AdventRunner
     {
         Func<object> run = part == AdventParts.PartOne
             ? solution.SolvePartOne
-            : solution.SolvePartSecond;
+            : solution.SolvePartTwo;
 
         Console.WriteLine($"Running part {(int)part} for {config.Description}...", Color.Gold);
 
@@ -142,7 +142,7 @@ public class AdventRunner
     {
         var methodInfo = solution.GetMethod(part == AdventParts.PartOne
             ? nameof(AdventSolution.SolvePartOne)
-            : nameof(AdventSolution.SolvePartSecond)
+            : nameof(AdventSolution.SolvePartTwo)
         );
         var configs = new List<RunConfig>();
 

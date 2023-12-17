@@ -89,7 +89,7 @@ public class Day10 : AdventSolution
         """,
         10
     )]
-    public override object SolvePartSecond()
+    public override object SolvePartTwo()
     {
         SolvePartOne();
         _biggerField = new bool[Input.Width * 2, Input.Height * 2];

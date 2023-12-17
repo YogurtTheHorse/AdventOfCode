@@ -9,7 +9,7 @@ public class Day9 : AdventSolution
 {
     public override object SolvePartOne() => Solve(true);
 
-    public override object SolvePartSecond() => Solve(false);
+    public override object SolvePartTwo() => Solve(false);
 
     private long Solve(bool isFirst) => Input
         .Lines

@@ -9,7 +9,7 @@ public class Day15 : AdventSolution
 {
     public override object SolvePartOne() => Input.Raw.SmartSplit(",").Select(Hash).Sum();
 
-    public override object SolvePartSecond()
+    public override object SolvePartTwo()
     {
         var lenses = new OrderedDictionary();
         var commands = Input.Raw.SmartSplit(",").ToArray();

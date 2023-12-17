@@ -6,7 +6,7 @@ public abstract class AdventSolution
     
     public abstract object SolvePartOne();
 
-    public abstract object SolvePartSecond();
+    public abstract object SolvePartTwo();
 
     public void WriteLine(object s)
     {

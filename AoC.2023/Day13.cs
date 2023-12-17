@@ -12,7 +12,7 @@ public class Day13 : AdventSolution
         .Select(m => SolveMap(m, 0))
         .Sum();
 
-    public override object SolvePartSecond()  => Input
+    public override object SolvePartTwo()  => Input
         .Raw
         .SmartSplit("\n\n")
         .Select(m => SolveMap(m, 1))

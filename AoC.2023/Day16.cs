@@ -8,7 +8,7 @@ public class Day16 : AdventSolution
 {
     public override object SolvePartOne() => Solve(new((0, 0), Direction.Right));
 
-    public override object SolvePartSecond()
+    public override object SolvePartTwo()
     {
         var m = 0;
 

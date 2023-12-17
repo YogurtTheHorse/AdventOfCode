@@ -13,7 +13,7 @@ public class Day14 : AdventSolution
         return Calc(inp);
     }
 
-    public override object SolvePartSecond()
+    public override object SolvePartTwo()
     {
         var inp = Input.SquareMap();
         var nearest = new int[Math.Max(Input.Width, Input.Height)];

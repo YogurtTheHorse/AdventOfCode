@@ -27,7 +27,7 @@ public class Day1 : AdventSolution
         return max;
     }
 
-    public override object SolvePartSecond()
+    public override object SolvePartTwo()
     {
         List<int> values = new();
         int current = 0;
