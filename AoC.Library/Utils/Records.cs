@@ -1,7 +1,21 @@
 namespace AoC.Library.Utils;
 
-public record Point(int X, int Y)
+public struct Point
 {
+    public int X { get; set; }
+
+    public int Y { get; set; }
+
+    public Point(int x, int y)
+    {
+        X = x;
+        Y = y;
+    }
+
+    public override string ToString() => $"({X}, {Y})";
+
+    public override int GetHashCode() => HashCode.Combine(X, Y);
+
     public bool InBounds(int width, int height) => X >= 0 && X < width && Y >= 0 && Y < height;
 
     public Point Loop(int width, int height) => new Point(
