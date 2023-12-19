@@ -12,9 +12,9 @@ public class Day19 : AdventSolution
         var (wfs, ps) = Input.Raw.SmartSplit("\n\n").Unpack2();
         var parts = ps.SmartSplit("\n").Select(s => s[1..^1]
             .Split(',')
-            .Select(s =>
+            .Select(ss =>
             {
-                var (k, v) = s.SmartSplit("=").Unpack2();
+                var (k, v) = ss.SmartSplit("=").Unpack2();
 
                 return (k, v.ToInt());
             })
