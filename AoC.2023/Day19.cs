@@ -99,6 +99,10 @@ public class Day19 : AdventSolution
                 {
                     ran = fa;
                 }
+                else
+                {
+                    break;
+                }
             }
         }
 
