@@ -6,8 +6,9 @@ namespace AoC.Library.Api;
 public partial class AdventFetcher
 {
     private readonly AdventSession _session;
-    
+
     public int Year { get; set; }
+
     public int Day { get; set; }
 
     public AdventFetcher(AdventSession session, int? year = null, int? day = null)
@@ -24,6 +25,9 @@ public partial class AdventFetcher
         "example.txt",
         $"https://adventofcode.com/{Year}/day/{Day}",
         page => ExampleTaskInput().Match(page).Groups[1].Value
+            .Replace("&gt;", ">")
+            .Replace("&lt;", "<")
+            .Replace("&amp;", "&")
     ));
 
     public async Task<string> GetFullInput() => await GetInput(new InputDescription(
@@ -42,10 +46,12 @@ public partial class AdventFetcher
     {
         var directory = $"inputs/year{Year}/day{Day}";
         var filepath = $"{directory}/{inputDescription.FileName}";
-        
+
         if (!ignoreFiles)
         {
-            if (File.Exists(filepath))
+            var isNewFile = (DateTime.Now - File.GetCreationTime(filepath)).TotalMinutes < 15 && inputDescription.Url is not null;
+
+            if (File.Exists(filepath) && isNewFile)
             {
                 return (await File.ReadAllTextAsync(filepath)).Replace("\r", string.Empty);
             }
@@ -76,8 +82,8 @@ public partial class AdventFetcher
     {
         var task = await GetTwoDaysTask(forFirstTask);
 
-        return task.Contains("Your puzzle answer was ") 
-            ? task.Contains($">{answer}<") 
+        return task.Contains("Your puzzle answer was ")
+            ? task.Contains($">{answer}<")
             : null;
     }
 
@@ -85,8 +91,8 @@ public partial class AdventFetcher
     {
         var task = await GetTask(false);
 
-        return forFirstDay || task.Contains("--- Part Two ---") 
-            ? task 
+        return forFirstDay || task.Contains("--- Part Two ---")
+            ? task
             : await GetTask(true);
 
         async Task<string> GetTask(bool ignoreFiles) => await GetInput(new InputDescription(
