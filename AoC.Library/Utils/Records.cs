@@ -18,9 +18,9 @@ public struct Point
 
     public bool InBounds(int width, int height) => X >= 0 && X < width && Y >= 0 && Y < height;
 
-    public Point Loop(int width, int height) => new Point(
-        (X + width) % width,
-        (Y + height) % height
+    public Point Loop(int width, int height) => new(
+        (X + width * (Math.Abs(X) / width + 3)) % width,
+        (Y + height * (Math.Abs(Y) / height + 3)) % height
     );
 
     public static Point Up => new(0, -1);
