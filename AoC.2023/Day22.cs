@@ -3,7 +3,7 @@ using AoC.Library.Utils;
 
 namespace AoC._2023;
 
-[DateInfo(2023, 22, AdventParts.PartTwo)]
+[DateInfo(2023, 22, AdventParts.All)]
 public class Day22 : AdventSolution
 {
     // [CustomRun(filename: "sus.txt")]
@@ -30,7 +30,6 @@ public class Day22 : AdventSolution
         return count;
     }
 
-    // [CustomRun(filename: "sus.txt")]
     public override object SolvePartTwo()
     {
         var startBrick = ParseAllBricks();
@@ -87,11 +86,11 @@ public class Day22 : AdventSolution
         var max = bricks.Aggregate(Point.Zero, (p, b) => Point.Max(p, b.End));
         var grid = new int[max.X + 1, max.Y + 1];
 
-        for (int i = 0; i < max.X + 1; i++)
-        for (int j = 0; j < max.Y + 1; j++)
+        for (var i = 0; i < max.X + 1; i++)
+        for (var j = 0; j < max.Y + 1; j++)
             grid[i, j] = -1;
 
-        for (int i = 0; i < bricks.Length; i++)
+        for (var i = 0; i < bricks.Length; i++)
         {
             HashSet<int> supporters = new();
             var b = bricks[i];
