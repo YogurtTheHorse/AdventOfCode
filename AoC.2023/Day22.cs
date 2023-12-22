@@ -6,13 +6,6 @@ namespace AoC._2023;
 [DateInfo(2023, 22, AdventParts.PartTwo)]
 public class Day22 : AdventSolution
 {
-    // [CustomRun(
-    //     """
-    //     0,0,1~10,10,1
-    //     3,3,3~3,3,3
-    //     2,1,2~1,1,2
-    //     """
-    // )]
     // [CustomRun(filename: "sus.txt")]
     public override object SolvePartOne()
     {
@@ -20,6 +13,7 @@ public class Day22 : AdventSolution
             .OrderBy(b => b.EndZ)
             .ThenBy(b => b.StartZ)
             .ToArray();
+        
         CalculateSupport(bricks, out var supports, out var supportedBy);
 
         var count = 0;
@@ -44,17 +38,9 @@ public class Day22 : AdventSolution
 
         var res = 0;
 
-        // PrintBricks(bricks);
-
         for (int i = 0; i < bricks.Length; i++)
         {
-            if (i % 10 == 0)
-            {
-                // Console.WriteLine(i);
-            }
-
-            // var d = CalcPart2Slow(bricks[i].Id, bricks);
-            var d = CalcPart2(i, bricks, supports, supportedBy);
+            var d = CalcPart2(i, supports, supportedBy);
 
             WriteLine($"{i} -> {d}");
             res += d;
@@ -63,22 +49,7 @@ public class Day22 : AdventSolution
         return res;
     }
 
-    private int CalcPart2Slow(int brickId, Brick[] usualBricks)
-    {
-        var movedBricks = CalculateSupport(usualBricks.Where(b => b.Id != brickId), out _, out _);
-
-        // WriteLine($"After removing {usualBricks[brick].Id}:");
-        // PrintBricks(movedBricks);
-
-        return movedBricks.Count(brick =>
-        {
-            var oldZ = usualBricks.First(b => b.Id == brick.Id).StartZ;
-
-            return oldZ != brick.StartZ;
-        });
-    }
-
-    private int CalcPart2(int brick, Brick[] bricks, List<int>[] supports, List<int>[] supportedBy)
+    private int CalcPart2(int brick, List<int>[] supports, List<int>[] supportedBy)
     {
         var q = new Queue<int>();
         var supportersCount = supportedBy.Select(s => s.Count).ToArray();
@@ -103,24 +74,14 @@ public class Day22 : AdventSolution
 
         return count;
     }
-
-    private void PrintBricks(IEnumerable<Brick> bricks)
-    {
-        foreach (var brick in bricks.OrderBy(b => b.Id))
-        {
-            WriteLine($"{brick.Id} -> {brick.StartZ}");
-        }
-
-        WriteLine("");
-    }
-
+    
     private Brick[] CalculateSupport(IEnumerable<Brick> inputBricks, out List<int>[] supports, out List<int>[] supportedBy)
     {
         var bricks = inputBricks
             .OrderBy(b => b.StartZ)
             .ToArray();
 
-        supports = new List<int>[bricks.Length];
+        supports = bricks.Select(_ => new List<int>()).ToArray();
         supportedBy = bricks.Select(_ => new List<int>()).ToArray();
 
         var max = bricks.Aggregate(Point.Zero, (p, b) => Point.Max(p, b.End));
@@ -136,36 +97,31 @@ public class Day22 : AdventSolution
             var b = bricks[i];
             var minZ = 0;
 
-            for (int x = b.Start.X; x <= b.End.X; x++)
-            for (int y = b.Start.Y; y <= b.End.Y; y++)
+            for (var x = b.Start.X; x <= b.End.X; x++)
+            for (var y = b.Start.Y; y <= b.End.Y; y++)
                 if (grid[x, y] >= 0 && bricks[grid[x, y]].EndZ > minZ)
                     minZ = bricks[grid[x, y]].EndZ;
 
-            for (int x = b.Start.X; x <= b.End.X; x++)
-            for (int y = b.Start.Y; y <= b.End.Y; y++)
+            for (var x = b.Start.X; x <= b.End.X; x++)
+            for (var y = b.Start.Y; y <= b.End.Y; y++)
                 if (grid[x, y] >= 0 && bricks[grid[x, y]].EndZ == minZ)
                     supporters.Add(grid[x, y]);
 
-            for (int x = b.Start.X; x <= b.End.X; x++)
-            for (int y = b.Start.Y; y <= b.End.Y; y++)
+            for (var x = b.Start.X; x <= b.End.X; x++)
+            for (var y = b.Start.Y; y <= b.End.Y; y++)
                 grid[x, y] = i;
 
             minZ++;
             supportedBy[i].AddRange(supporters);
+            foreach (var supporter in supporters)
+            {
+                supports[supporter].Add(i);
+            }
 
             bricks[i] = b with {
                 StartZ = minZ,
                 EndZ = b.EndZ - b.StartZ + minZ
             };
-        }
-
-        for (int i = 0; i < bricks.Length; i++)
-        {
-            supports[i] = supportedBy
-                .Select((sb, i) => (sb, i))
-                .Where(data => data.sb.Contains(i))
-                .Select(data => data.i)
-                .ToList();
         }
 
         return bricks;
