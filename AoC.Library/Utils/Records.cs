@@ -12,6 +12,8 @@ public struct Point
         Y = y;
     }
 
+    public Point(IList<int> c) => (X, Y) = c.Unpack2();
+
     public override string ToString() => $"({X}, {Y})";
 
     public override int GetHashCode() => HashCode.Combine(X, Y);
@@ -22,6 +24,11 @@ public struct Point
         (X + width * (Math.Abs(X) / width + 3)) % width,
         (Y + height * (Math.Abs(Y) / height + 3)) % height
     );
+
+    public static (Point, Point) Bounds(Point p1, Point p2) => (Min(p1, p2), Max(p1, p2));
+
+    public static Point Min(Point p1, Point p2) => new(Math.Min(p1.X, p2.X), Math.Min(p1.Y, p2.Y));
+    public static Point Max(Point p1, Point p2) => new(Math.Max(p1.X, p2.X), Math.Max(p1.Y, p2.Y));
 
     public static Point Up => new(0, -1);
 

@@ -5,6 +5,9 @@ public static class Parsing
     public static string[] SmartSplit(this string input, string sp = " ") =>
         input.Split(sp, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).ToArray();
 
+    public static string[] SmartSplit(this string input, char sp) =>
+        input.Split(sp, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).ToArray();
+
     public static long[] ToLong(this IEnumerable<string> coll) =>
         coll.Select(long.Parse).ToArray();
 

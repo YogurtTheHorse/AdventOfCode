@@ -49,7 +49,7 @@ public partial class AdventFetcher
 
         if (!ignoreFiles)
         {
-            var isNewFile = (DateTime.Now - File.GetCreationTime(filepath)).TotalMinutes < 15 && inputDescription.Url is not null;
+            var isNewFile = (DateTime.Now - File.GetCreationTime(filepath)).TotalMinutes < 15 || inputDescription.Url is null;
 
             if (File.Exists(filepath) && isNewFile)
             {
