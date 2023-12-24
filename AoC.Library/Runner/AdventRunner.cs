@@ -7,12 +7,12 @@ namespace AoC.Library.Runner;
 
 public class AdventRunner
 {
-    private readonly Assembly _solutionsAssembly;
+    private readonly Assembly[] _solutionsAssemblies;
     private readonly AdventFetcher _fetcher;
 
-    public AdventRunner(AdventFetcher fetcher, Assembly solutionsAssembly)
+    public AdventRunner(AdventFetcher fetcher, params Assembly[] solutionsAssemblies)
     {
-        _solutionsAssembly = solutionsAssembly;
+        _solutionsAssemblies = solutionsAssemblies;
         _fetcher = fetcher;
     }
 
@@ -214,7 +214,7 @@ public class AdventRunner
     }
 
     private IEnumerable<Type> GetSolutions() =>
-        _solutionsAssembly
-            .GetTypes()
+        _solutionsAssemblies
+            .SelectMany(a => a.GetTypes())
             .Where(typeof(AdventSolution).IsAssignableFrom);
 }

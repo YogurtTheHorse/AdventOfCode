@@ -4,6 +4,8 @@ using AoC.Library.Utils;
 
 namespace AoC._2023;
 
+using Point = PointBase<int>;
+
 [DateInfo(2023, 18, AdventParts.All)]
 public class Day18 : AdventSolution
 {

@@ -3,7 +3,11 @@ using AoC.Library.Runner;
 
 using var session = new AdventSession();
 var fetcher = new AdventFetcher(session);
-var runner = new AdventRunner(fetcher, typeof(AoC._2023.Day12).Assembly);
+var runner = new AdventRunner(
+    fetcher,
+    typeof(AoC._2023.Day12).Assembly,
+    typeof(AoC._2023.FSharp.Day23).Assembly
+);
 
 await runner.FindAndRunLatest(new RunnerConfig() {
     // Type = RunType.Custom,

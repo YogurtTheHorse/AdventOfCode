@@ -3,6 +3,8 @@ using AoC.Library.Utils;
 
 namespace AoC._2023;
 
+using Point = PointBase<int>;
+
 [DateInfo(2023, 21, AdventParts.PartTwo)]
 public class Day21 : AdventSolution
 {
@@ -81,7 +83,7 @@ public class Day21 : AdventSolution
         WriteLine(start);
         var q = new Queue<(Point, int)>();
         q.Enqueue((start, 0));
-        int stepsAllowed = start.X + Input.Width * 2;
+        int stepsAllowed = (int)start.X + Input.Width * 2;
         
         // LUCY IN THE SKY WITH DIAMONDS
         // https://i.imgur.com/j3tgjyR.jpg
@@ -115,7 +117,7 @@ public class Day21 : AdventSolution
         }
 
         var nums = new List<long>();
-        for (int step = start.X + Input.Width; step <= stepsAllowed; step += Input.Width)
+        for (int step = (int)start.X + Input.Width; step <= stepsAllowed; step += Input.Width)
         {
             var n = visitedAtStep[step] - visitedAtStep[step - Input.Width];
             WriteLine(n);

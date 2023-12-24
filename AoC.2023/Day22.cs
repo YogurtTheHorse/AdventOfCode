@@ -3,18 +3,21 @@ using AoC.Library.Utils;
 
 namespace AoC._2023;
 
+using Point = PointBase<int>;
+
 [DateInfo(2023, 22, AdventParts.All)]
 public class Day22 : AdventSolution
 {
-    // [CustomRun(filename: "sus.txt")]
+    [CustomRun(filename: "sus.txt")]
     public override object SolvePartOne()
     {
-        var bricks = ParseAllBricks()
-            .OrderBy(b => b.EndZ)
-            .ThenBy(b => b.StartZ)
-            .ToArray();
+        var bricks = ParseAllBricks();
         
-        CalculateSupport(bricks, out var supports, out var supportedBy);
+        var res = CalculateSupport(bricks, out var supports, out var supportedBy);
+        foreach (var brick in res)
+        {
+            Console.WriteLine($"{brick.Start.X},{brick.Start.Y},{brick.StartZ}~{brick.End.X},{brick.End.Y},{brick.EndZ}");
+        }
 
         var count = 0;
 
@@ -22,6 +25,7 @@ public class Day22 : AdventSolution
         {
             if (supports[i].Count == 0 || supports[i].All(j => supportedBy[j].Count > 1))
             {
+                Console.WriteLine(i);
                 count++;
             }
         }
@@ -78,6 +82,7 @@ public class Day22 : AdventSolution
     {
         var bricks = inputBricks
             .OrderBy(b => b.StartZ)
+            .ThenBy(b => b.EndZ)
             .ToArray();
 
         supports = bricks.Select(_ => new List<int>()).ToArray();
