@@ -8,6 +8,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AoC.Runner", "AoC.Runner\Ao
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AoC.2022", "AoC.2022\AoC.2022.csproj", "{ABF573C5-2A7F-4DD8-A61A-2F6955A9517A}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "AoC.2023.FSharp", "AoC.2023.FSharp\AoC.2023.FSharp.fsproj", "{A90D7AED-7BBD-4701-A694-404BC902BCA3}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "AoC.FSharp", "AoC.FSharp\AoC.FSharp.fsproj", "{6BA3DF66-0219-4280-B92B-F33B40676C34}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +34,13 @@ Global
 		{ABF573C5-2A7F-4DD8-A61A-2F6955A9517A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABF573C5-2A7F-4DD8-A61A-2F6955A9517A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABF573C5-2A7F-4DD8-A61A-2F6955A9517A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A90D7AED-7BBD-4701-A694-404BC902BCA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A90D7AED-7BBD-4701-A694-404BC902BCA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A90D7AED-7BBD-4701-A694-404BC902BCA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A90D7AED-7BBD-4701-A694-404BC902BCA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BA3DF66-0219-4280-B92B-F33B40676C34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BA3DF66-0219-4280-B92B-F33B40676C34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BA3DF66-0219-4280-B92B-F33B40676C34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BA3DF66-0219-4280-B92B-F33B40676C34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

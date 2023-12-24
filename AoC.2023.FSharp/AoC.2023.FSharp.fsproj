@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <RootNamespace>AoC._2023.FSharp</RootNamespace>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\AoC.FSharp\AoC.FSharp.fsproj" />
+      <ProjectReference Include="..\AoC.Library\AoC.Library.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Include="Day23.fs" />
+    </ItemGroup>
+
+</Project>
