@@ -2,7 +2,7 @@ using System.Numerics;
 
 namespace AoC.Library.Utils;
 
-public struct PointBase<T> where T : INumber<T>
+public struct PointBase<T> : IEquatable<PointBase<T>> where T : INumber<T>
 {
     public T X { get; set; }
 
@@ -18,7 +18,10 @@ public struct PointBase<T> where T : INumber<T>
 
     public override string ToString() => $"({X}, {Y})";
 
-    public override int GetHashCode() => HashCode.Combine(X, Y);
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(X, Y);
+    }
 
     public bool InBounds(T width, T height) => X >= T.Zero && X < width && Y >= T.Zero && Y < height;
 
@@ -33,15 +36,15 @@ public struct PointBase<T> where T : INumber<T>
 
     public static PointBase<T> Max(PointBase<T> p1, PointBase<T> p2) => new(T.Max(p1.X, p2.X), T.Max(p1.Y, p2.Y));
 
-    public static PointBase<T> Up => new(T.Zero, -T.One);
+    public static PointBase<T> Up { get; } = new(T.Zero, -T.One);
 
-    public static PointBase<T> Right => new(T.One, T.Zero);
+    public static PointBase<T> Right { get; } = new(T.One, T.Zero);
 
-    public static PointBase<T> Down => new(T.Zero, T.One);
+    public static PointBase<T> Down { get; } = new(T.Zero, T.One);
 
-    public static PointBase<T> Left => new(-T.One, T.Zero);
+    public static PointBase<T> Left { get; } = new(-T.One, T.Zero);
 
-    public static PointBase<T> Zero => new(T.Zero, T.Zero);
+    public static PointBase<T> Zero { get; } = new(T.Zero, T.Zero);
 
     public static implicit operator (T, T)(PointBase<T> p) => (p.X, p.Y);
 
@@ -60,4 +63,14 @@ public struct PointBase<T> where T : INumber<T>
     public static PointBase<T> operator -(PointBase<T> a, PointBase<T> b) => new(a.X - b.X, a.Y - b.Y);
 
     public static PointBase<T> operator *(PointBase<T> a, T v) => new(a.X * v, a.Y * v);
+
+    public static bool operator ==(PointBase<T> a, PointBase<T> b) => a.Equals(b);
+
+    public static bool operator !=(PointBase<T> a, PointBase<T> b) => !a.Equals(b);
+
+    public bool Equals(PointBase<T> other) =>
+        EqualityComparer<T>.Default.Equals(X, other.X)
+        && EqualityComparer<T>.Default.Equals(Y, other.Y);
+
+    public override bool Equals(object? obj) => obj is PointBase<T> other && Equals(other);
 }

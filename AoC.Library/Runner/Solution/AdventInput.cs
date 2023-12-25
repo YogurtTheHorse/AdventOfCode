@@ -30,6 +30,8 @@ public record AdventInput(string Raw, bool Print)
 
     public char this[int x, int y] => Lines[y][x];
 
+    public char this[PointBase<int> p] => Lines[p.Y][p.X];
+
     public string this[int y] => Lines[y];
 
     public static implicit operator AdventInput(string s) => new(s, false);
