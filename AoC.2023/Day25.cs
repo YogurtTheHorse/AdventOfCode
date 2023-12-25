@@ -58,6 +58,8 @@ public class Day25 : AdventSolution
             }
         }
 
+        // dot -Kneato -Tsvg temp.graph >temp.svg
+        // and look
         var groups = CountGroups(cons, 
             //("hfx", "pzl"), ("bvb", "cmg"), ("nvd", "jqt"),
             ("zcp", "zjm"), ("rsg", "nsk"), ("jks", "rfg")
