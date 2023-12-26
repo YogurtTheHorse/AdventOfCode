@@ -35,7 +35,7 @@ let search map x0 y0 p2 =
 
     let rec searchInn =
         function
-        | [] -> 0
+        | [] -> []
         | (x, y, _) :: tail when x < 0 || y < 0 || x >= w && y >= h -> searchInn tail
         | (x, y, v) :: tail when List.contains (x, y) v -> searchInn tail
         | (x, y, visits) :: tail ->
@@ -43,19 +43,20 @@ let search map x0 y0 p2 =
             | Wall -> searchInn tail
             | _ when y = h - 1 ->  
                 let curr = List.length visits
-                max curr (searchInn tail)
+                printf $"{curr}\n"
+                [curr] @ (searchInn tail)
             | _ ->
                 let newVisits = visits @ [x, y]
                 let neighbors = neig map x y p2
-                let q = tail @ (List.map (function (x, y) -> (x, y, newVisits)) neighbors)
+                let q = (List.map (function x, y -> (x, y, newVisits)) neighbors) @ tail
                     
                 searchInn q
 
-    searchInn [ x0, y0, [] ]
+    searchInn [ x0, y0, [] ] |> Seq.max
 
 
 
-[<DateInfo(2023, 23, AdventParts.PartTwo)>]
+[<DateInfo(2022, 23, AdventParts.PartTwo)>]
 type Day23() =
     inherit AdventSolution()
 

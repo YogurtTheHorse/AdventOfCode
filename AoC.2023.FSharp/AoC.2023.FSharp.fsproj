@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <RootNamespace>AoC._2023.FSharp</RootNamespace>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
@@ -13,6 +13,7 @@
 
     <ItemGroup>
       <Compile Include="Day23.fs" />
+      <Compile Include="Day1.fs" />
     </ItemGroup>
 
 </Project>
