@@ -73,7 +73,7 @@ type Day2() =
 
     override this.SolvePartOne() =
         this.Input.Lines
-        |> Array.map (String.splitChar [| ' ' |] >> Array.map RPS.parse >> Tuple.tuple2)
+        |> Array.map (String.splitChar [| ' ' |] >> Array.map RPS.parse >> Tuple.ofArray2)
         |> Array.map (fun (a, b) -> ((RPS.compare b a) |> RPS.resToNumber) + (RPS.toNumber b))
         // |> Array.map (fun x ->
         //     printfn $"%d{x}"
@@ -84,7 +84,7 @@ type Day2() =
 
     override this.SolvePartTwo() =
         this.Input.Lines
-        |> Array.map (String.splitChar [| ' ' |] >> Tuple.tuple2)
+        |> Array.map (String.splitChar [| ' ' |] >> Tuple.ofArray2)
         |> Array.map (fun (a, r) -> (RPS.parse a, RPS.parseResult r))
         |> Array.map (fun (a, r) -> (r |> RPS.resToNumber) + (a |> RPS.find r |> RPS.toNumber))
         |> Array.sum

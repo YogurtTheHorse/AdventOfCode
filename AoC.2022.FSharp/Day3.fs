@@ -29,7 +29,7 @@ type Day3() =
     override this.SolvePartTwo() = 
         this.Input.Lines
         |> Seq.chunkBySize 3
-        |> Seq.map Tuple.tuple3
+        |> Seq.map Tuple.ofArray3
         |> Seq.map (Helpers.t3 find2)
         |> Seq.map toNum
         |> Seq.sum

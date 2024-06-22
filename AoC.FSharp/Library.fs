@@ -1,19 +1,30 @@
 ﻿namespace AoC.FSharp
 
 module Tuple =
-    let tuple2 =
+    let ofArray2 =
         function
         | [| a; b |] -> (a, b)
         | _ -> failwith "wrong array"
 
-    let tuple3 =
+    let ofArray3 =
         function
         | [| a; b; c |] -> (a, b, c)
+        | _ -> failwith "wrong array"
+        
+    let ofList2 =
+        function
+        | [ a; b ] -> (a, b)
+        | _ -> failwith "wrong array"
+
+    let ofList3 =
+        function
+        | [ a; b; c ] -> (a, b, c)
         | _ -> failwith "wrong array"
 
 module Helpers =
     let t2 foo (x, y) = foo x y
     let t3 foo (x, y, z) = foo x y z
+
     let silent f x =
         f x
         x
