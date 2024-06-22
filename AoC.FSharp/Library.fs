@@ -44,10 +44,10 @@ module List =
 
 module String =
     let smartSplit (split: string) (s: string) =
-        s.Split(split) |> Seq.map (fun s -> s.Trim()) |> List.ofSeq
+        s.Split(split) |> Seq.map (_.Trim()) |> List.ofSeq
 
     let containsChar (c: char) (s: string) = s.Contains(c)
 
     let containsChar2 (s: string) (c: char) = s.Contains(c)
-    
-    let halves (s: string) = s[.. x.Length / 2], s[x.Length / 2 ..]
+
+    let halves (s: string) = s[.. s.Length / 2], s[s.Length / 2 ..]
