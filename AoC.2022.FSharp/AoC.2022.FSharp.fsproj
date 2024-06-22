@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <RootNamespace>AoC._2022.FSharp</RootNamespace>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="Day1.fs" />
+        <Compile Include="Day2.fs" />
+        <Compile Include="Day3.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\AoC.FSharp\AoC.FSharp.fsproj" />
+      <ProjectReference Include="..\AoC.Library\AoC.Library.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="FSharpx.Extras" Version="3.1.0" />
+    </ItemGroup>
+
+</Project>
