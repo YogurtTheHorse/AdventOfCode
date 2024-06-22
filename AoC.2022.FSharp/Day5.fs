@@ -54,7 +54,7 @@ let parse lines =
 [<DateInfo(2022, 5, AdventParts.PartTwo)>]
 type Day5() =
     inherit AdventSolution()
-
+ 
     override this.SolvePartOne() =
         let stacks, commands = parse this.Input.FullLines[..^1]
         let resultStacks = List.fold (applyCommand true) stacks commands
