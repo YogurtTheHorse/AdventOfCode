@@ -10,7 +10,7 @@ module Tuple =
         function
         | [| a; b; c |] -> (a, b, c)
         | _ -> failwith "wrong array"
-        
+
     let ofList2 =
         function
         | [ a; b ] -> (a, b)
@@ -44,14 +44,15 @@ module List =
     let containsRev lst v = List.contains v lst
 
     let split elem arr =
-        List.fold
-            (fun curr v ->
-                match v, curr with
+        Seq.fold
+            (fun lists v ->
+                match v, lists with
                 | v, curr when v = elem -> [] :: curr
                 | v, [] -> [ [ v ] ]
                 | v, head :: tail -> (head @ [ v ]) :: tail)
             []
             arr
+        |> List.rev
 
 module String =
     let smartSplit (split: string) (s: string) =
