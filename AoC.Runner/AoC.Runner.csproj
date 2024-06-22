@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\AoC.2022.FSharp\AoC.2022.FSharp.fsproj" />
       <ProjectReference Include="..\AoC.2022\AoC.2022.csproj" />
       <ProjectReference Include="..\AoC.2023.FSharp\AoC.2023.FSharp.fsproj" />
       <ProjectReference Include="..\AoC.2023\AoC.2023.csproj" />
