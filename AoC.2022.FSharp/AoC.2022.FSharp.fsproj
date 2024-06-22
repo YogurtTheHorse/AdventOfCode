@@ -4,6 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <RootNamespace>AoC._2022.FSharp</RootNamespace>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <LangVersion>preview</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
@@ -11,6 +12,7 @@
         <Compile Include="Day2.fs" />
         <Compile Include="Day3.fs" />
         <Compile Include="Day4.fs" />
+        <Compile Include="Day5.fs" />
     </ItemGroup>
 
     <ItemGroup>
