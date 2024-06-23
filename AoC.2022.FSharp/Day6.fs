@@ -26,7 +26,6 @@ type Day6() =
 
         line |> find 4 :> obj
 
-
     [<CustomRun("bvwbjplbgvbhsrlpgdmjqwftvncz", correct = "23")>]
     [<CustomRun("nppdvjthqldpwncqszvftbrmjlhg", correct = "23")>]
     [<CustomRun("nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg", correct = "29")>]
