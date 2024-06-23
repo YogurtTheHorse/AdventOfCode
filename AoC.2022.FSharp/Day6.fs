@@ -13,7 +13,7 @@ let find count s =
     |> Seq.findIndex (List.length >> (=) count)
     |> (+) count
 
-[<DateInfo(2022, 6, AdventParts.PartTwo)>]
+[<DateInfo(2022, 6, AdventParts.All)>]
 type Day6() =
     inherit AdventSolution()
 
