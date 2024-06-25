@@ -31,20 +31,20 @@ $ ls
 7214296 k
 """
 
-type Object =
+type private Object =
     | File of int
     | Directory of Map<string, Object>
 
-type State =
+type private State =
     { CurrentDirectory: string list
       Root: Object }
 
-type SizedObject =
+type private SizedObject =
     | SizedFile of int
     | SizedDirectory of SizedObject list * string * int 
     
 
-let rec addFile path name object dir =
+let rec private addFile path name object dir =
     match dir, path with
     | File _, _ -> failwith "Cant add object to file"
     | Directory(objects), [] -> Directory(Map.add name object objects)
@@ -56,7 +56,7 @@ let rec addFile path name object dir =
 
         Directory(Map.add subname subdir' objects)
 
-let cd dir state =
+let private cd dir state =
     match dir with
     | "/" -> { state with CurrentDirectory = [] }
     | ".." ->
@@ -66,7 +66,7 @@ let cd dir state =
         { state with
             CurrentDirectory = state.CurrentDirectory @ [ dir ] }
 
-let apply state command =
+let private apply state command =
     let parts = String.smartSplit " " command
 
     match parts with
@@ -81,7 +81,7 @@ let apply state command =
     | _ -> failwithf $"Unknown command: %s{command}"
 
 
-let rec printObject indent name obj =
+let rec private printObject indent name obj =
     match obj with
     | File(size) -> printfn $"%s{indent}%s{name} %d{size}"
     | Directory(objects) ->
@@ -91,12 +91,12 @@ let rec printObject indent name obj =
         |> Map.iter (fun childname obj -> printObject (indent + "  ") childname obj)
         
         
-let size =
+let private size =
     function
     | SizedFile s -> s
     | SizedDirectory (_, _, s) -> s
 
-let rec toSized name dir = 
+let rec private toSized name dir = 
     match dir with
     | File size -> SizedFile size
     | Directory(children) -> 
@@ -109,7 +109,7 @@ let rec toSized name dir =
 
         SizedDirectory(children', name, size)
 
-let rec printSized indent name obj =
+let rec private printSized indent name obj =
     match obj with
     | SizedFile(size) -> printfn $"%s{indent}%s{name} - %d{size}"
     | SizedDirectory(children, name, size) ->
@@ -124,7 +124,7 @@ let rec printSized indent name obj =
         |> List.iter (fun child -> printSized (indent + "  ") (childname child) child)
         
         
-let rec unfold acc =
+let rec private unfold acc =
     function
     | SizedFile _ -> acc @ []
     | SizedDirectory(children, _, _) as dir ->
@@ -132,7 +132,7 @@ let rec unfold acc =
         |> List.fold unfold acc
         |> (@) [dir]
 
-[<DateInfo(2022, 7, AdventParts.PartTwo)>]
+[<DateInfo(2022, 7, AdventParts.PartOne)>]
 [<CustomExample(example, "95437", "24933642")>]
 type Day6() =
     inherit AdventSolution()
@@ -148,7 +148,7 @@ type Day6() =
         let sized = toSized "/" state.Root
         let dirs = unfold [] sized
         
-        // printObject "" "/" state.Root        
+        printObject "" "/" state.Root        
         // printSized "" "/" sized
         
         dirs
