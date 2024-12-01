@@ -31,7 +31,7 @@ module Helpers =
 
 
 module Array2D =
-    let get2 map = Array2D.get map |> Helpers.t2
+    let get2 pos map = pos |> Helpers.t2 (Array2D.get map)
 
     let toSeq arr =
         seq {
@@ -54,9 +54,24 @@ module List =
             arr
         |> List.rev
 
+    let count seq elem =
+        seq |> Seq.where ((=) elem) |> Seq.length
+
+
+    let unzip sequence =
+        Seq.foldBack (fun (a, b) (accA, accB) -> a :: accA, b :: accB) sequence ([], [])
+
+    let rec zip (a, b) =
+        match (a, b) with
+        | ha :: ta, hb :: tb -> (ha, hb) :: zip (ta, tb)
+        | _, _ -> []
+
 module String =
     let smartSplit (split: string) (s: string) =
-        s.Split(split) |> Seq.map (_.Trim()) |> List.ofSeq
+        let a = s.Split(split) |> Seq.map (_.Trim()) |> List.ofSeq
+        a
+
+    let isEmpty s = System.String.IsNullOrEmpty(s)
 
     let containsChar (c: char) (s: string) = s.Contains(c)
 

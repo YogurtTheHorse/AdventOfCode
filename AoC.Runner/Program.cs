@@ -5,8 +5,9 @@ using var session = new AdventSession();
 var fetcher = new AdventFetcher(session);
 var runner = new AdventRunner(
     fetcher,
-    typeof(AoC._2022.FSharp.Day1).Assembly //,
+    // typeof(AoC._2022.FSharp.Day1).Assembly //,
     //typeof(AoC._2023.Day12).Assembly
+    typeof(AoC._2024.FSharp.Day1).Assembly
 );
 
 // await runner.FindAndRunLatest(new RunnerConfig() {

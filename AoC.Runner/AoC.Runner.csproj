@@ -12,6 +12,8 @@
       <ProjectReference Include="..\AoC.2022\AoC.2022.csproj" />
       <ProjectReference Include="..\AoC.2023.FSharp\AoC.2023.FSharp.fsproj" />
       <ProjectReference Include="..\AoC.2023\AoC.2023.csproj" />
+      <ProjectReference Include="..\AoC.2024.FSharp\AoC.2024.FSharp.fsproj" />
+      <ProjectReference Include="..\AoC.2024\AoC.2024.csproj" />
       <ProjectReference Include="..\AoC.Library\AoC.Library.csproj" />
     </ItemGroup>
 
