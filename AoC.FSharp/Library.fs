@@ -1,5 +1,7 @@
 ﻿namespace AoC.FSharp
 
+open System
+
 module Tuple =
     let ofArray2 =
         function
@@ -68,7 +70,11 @@ module List =
 
 module String =
     let smartSplit (split: string) (s: string) =
-        let a = s.Split(split) |> Seq.map (_.Trim()) |> List.ofSeq
+        let a =
+            s.Split(split, StringSplitOptions.RemoveEmptyEntries ||| StringSplitOptions.TrimEntries)
+            |> Seq.map (_.Trim())
+            |> List.ofSeq
+
         a
 
     let isEmpty s = System.String.IsNullOrEmpty(s)

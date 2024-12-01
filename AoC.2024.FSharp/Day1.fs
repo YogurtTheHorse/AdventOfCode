@@ -10,12 +10,7 @@ type Day1() =
     override this.SolvePartOne() =
         this.Input.Lines
         |> List.ofArray
-        |> List.map (fun group ->
-            group
-            |> String.smartSplit " "
-            |> List.where (String.isEmpty >> not)
-            |> List.map int
-            |> Tuple.ofList2)
+        |> List.map (String.smartSplit " " >> List.map int >> Tuple.ofList2)
         |> List.unzip
         |> (fun (a, b) -> List.sort a, List.sort b)
         |> List.zip
@@ -27,12 +22,7 @@ type Day1() =
     override this.SolvePartTwo() =
         this.Input.Lines
         |> List.ofArray
-        |> List.map (fun group ->
-            group
-            |> String.smartSplit " "
-            |> List.where (String.isEmpty >> not)
-            |> List.map int
-            |> Tuple.ofList2)
+        |> List.map (String.smartSplit " " >> List.map int >> Tuple.ofList2)
         |> List.unzip
         |> fun (a, b) -> a |> List.map (fun aa -> (List.count b aa) * aa) |> List.sum
         :> obj
