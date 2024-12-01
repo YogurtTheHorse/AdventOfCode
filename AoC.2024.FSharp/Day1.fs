@@ -14,7 +14,7 @@ type Day1() =
         |> List.unzip
         |> (fun (a, b) -> List.sort a, List.sort b)
         |> List.zip
-        |> List.map (fun (a, b) -> abs (a - b))
+        |> List.map (Helpers.t2 (-) >> abs)
         |> List.sum
         :> obj
 
