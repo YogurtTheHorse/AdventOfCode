@@ -1,6 +1,5 @@
 module AoC._2024.FSharp.Day3
 
-open System
 open System.Text.RegularExpressions
 open AoC.FSharp
 open AoC.Library.Runner
@@ -16,15 +15,13 @@ let rec filter muls dos state =
     match muls with
     | mul :: mulsTail when fst mul < fst nextDos ->
         if state then
-            snd mul
-            :: (filter mulsTail dos state)
+            snd mul :: (filter mulsTail dos state)
         else
             filter mulsTail dos state
     | mul :: _ when fst mul >= fst nextDos ->
-        let nextState = snd nextDos
-        
-        filter muls (List.skip 1 dos) nextState 
+        filter muls (List.skip 1 dos) (snd nextDos)
     | [] -> []
+    | _ -> failwith "todo"
         
     
 
@@ -35,8 +32,7 @@ type Day3() =
     override this.SolvePartOne() =
         mulreg.Matches(this.Input.Raw)
         |> List.ofSeq
-        |> List.map (fun m -> int m.Groups[1].Value, int m.Groups[2].Value)
-        |> List.map (Helpers.t2 (*))
+        |> List.map (fun m -> int m.Groups[1].Value * int m.Groups[2].Value)
         |> List.sum
         :> obj
 
