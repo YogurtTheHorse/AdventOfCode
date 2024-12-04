@@ -3,10 +3,10 @@ module AoC._2024.FSharp.Day2
 open AoC.Library.Runner
 open AoC.FSharp
 
-type IsGoodSecond =
-    | Bad
-    | GoodOriginal
-    | GoodRemoved of int
+    type IsGoodSecond =
+        | Bad
+        | GoodOriginal
+        | GoodRemoved of int
 
 let differences lst =
     lst
@@ -16,10 +16,14 @@ let differences lst =
 let isGoodLevel (nums: int list) =
     let diffs = differences nums
     let correctSign = sign diffs[0]
-    let signs = List.forall (fun d -> sign d = correctSign) diffs
-    let inRanges = List.forall (fun d -> d >= -3 && d <= 3 && d <> 0) diffs
+    
+    if correctSign = 0 then
+        false
+    else
+        let signs = List.forall (fun d -> sign d = correctSign) diffs
+        let inRanges = List.forall (fun d -> d >= -3 && d <= 3 && d <> 0) diffs
 
-    signs && inRanges && correctSign <> 0
+        signs && inRanges
     
 let isGoodSecond (nums: int list) =
     if isGoodLevel nums then
@@ -38,18 +42,16 @@ let isGoodSecond (nums: int list) =
             |> Seq.map removeNthElement
             |> Seq.mapi (fun i l -> if isGoodLevel l then GoodRemoved i else Bad)
             |> Seq.where (function | Bad -> false | _ -> true)
-            |> List.ofSeq
-            
-        if List.isEmpty results then
-            Bad
-        else
-            List.head results
+           
+        match Seq.tryHead results with
+        | None -> Bad
+        | Some v -> v
         
         
 
-[<DateInfo(2024, 2, AdventParts.PartTwo)>]
+[<DateInfo(2024, 2, AdventParts.All)>]
 type Day2() =
-    inherit AdventSolution()
+    inherit AdventSolution()    
 
     override this.SolvePartOne() =
         this.Input.Lines

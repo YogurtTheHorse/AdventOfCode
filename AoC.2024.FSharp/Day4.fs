@@ -2,39 +2,18 @@ module AoC._2024.FSharp.Day4
 
 open AoC.Library.Runner
 
-
-let rec check (map: char array2d) leftChars dir (p: int * int) =
-    let x, y = p
-
-    if x < 0 || y < 0 || x >= map.GetLength(0) || y >= map.GetLength(1) then
-        false
-    else
-        let charMatch = (=) map[x, y]
-
-        match leftChars with
-        | [ lastChar ] -> charMatch lastChar
-        | curChar :: tail ->
-            if charMatch curChar then
-                check map tail dir (x + fst dir, y + snd dir)
-            else
-                false
-        | [] -> failwith "cant be true"
-        
 let rec extract (map: char array2d) leftCnt dir (p: int * int) =
     let x, y = p
 
     if x < 0 || y < 0 || x >= map.GetLength(0) || y >= map.GetLength(1) then
-        []
+        ""
+    else if leftCnt > 1 then
+        string map[x, y] + (extract map (leftCnt - 1) dir (x + fst dir, y + snd dir))
     else
-        let charMatch = (=) map[x, y]
-
-        if leftCnt > 1 then
-            string map[x, y] :: (extract map (leftCnt - 1) dir (x + fst dir, y + snd dir))
-        else
-            [string  map[x, y]]
+        string map[x, y]
 
 
-[<DateInfo(2024, 4, AdventParts.PartTwo)>]
+[<DateInfo(2024, 4, AdventParts.All)>]
 [<CustomExample("""MMMSXXMASM
 MSAMXMSMSA
 AMXSXMAAMM
@@ -62,7 +41,7 @@ type Day4() =
         |> Seq.where (function
             | _, (0, 0) -> false
             | _ -> true)
-        |> Seq.where (fun (p, d) -> check map [ 'X'; 'M'; 'A'; 'S' ] d p)
+        |> Seq.where (fun (p, d) -> (extract map 4 d p) = "XMAS")
         |> Seq.length
         :> obj
 
@@ -75,8 +54,8 @@ type Day4() =
                 for row in 0 .. this.Input.Width - 1 -> (row, col)
         }
         |> Seq.where (fun (x, y) ->
-            let f = extract map 3 (1, 1) (x, y) |> String.concat ""
-            let s = extract map 3 (-1, 1) (x + 2, y) |> String.concat ""
+            let f = extract map 3 (1, 1) (x, y)
+            let s = extract map 3 (-1, 1) (x + 2, y)
 
             (f = "MAS" || f = "SAM") && (s = "MAS" || s = "SAM"))
         |> Seq.length

@@ -8,22 +8,21 @@ open AoC.Library.Runner
 let dosreg = Regex(@"(do|don\'t)\(\)", RegexOptions.Compiled)
 let mulreg = Regex(@"mul\((\d+),(\d+)\)", RegexOptions.Compiled)
 
-        
+
 let rec filter muls dos state =
     let nextDos = List.tryHead dos |> Option.defaultValue (99999999, false)
-    
+
     match muls with
     | mul :: mulsTail when fst mul < fst nextDos ->
         if state then
             snd mul :: (filter mulsTail dos state)
         else
             filter mulsTail dos state
-    | mul :: _ when fst mul >= fst nextDos ->
-        filter muls (List.skip 1 dos) (snd nextDos)
+    | mul :: _ when fst mul >= fst nextDos -> filter muls (List.skip 1 dos) (snd nextDos)
     | [] -> []
     | _ -> failwith "todo"
-        
-    
+
+
 
 [<DateInfo(2024, 3, AdventParts.PartTwo)>]
 type Day3() =
@@ -48,7 +47,5 @@ type Day3() =
             dosreg.Matches(this.Input.Raw)
             |> List.ofSeq
             |> List.map (fun m -> m.Index, m.Groups[1].Value = "do")
-            
-        filter muls dos true
-        |> List.sum
-        :> obj
+
+        filter muls dos true |> List.sum :> obj
