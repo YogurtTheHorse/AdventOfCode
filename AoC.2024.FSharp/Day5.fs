@@ -24,7 +24,6 @@ let getSorted rules =
         |> Option.map (fun (xx, _) -> if xx = x then 1 else -11)
         |> Option.defaultValue 0)
 
-
 [<DateInfo(2024, 5, AdventParts.PartTwo)>]
 type Day5() =
     inherit AdventSolution()
