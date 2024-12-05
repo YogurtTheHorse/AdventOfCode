@@ -30,6 +30,9 @@ module Helpers =
     let silent f x =
         f x
         x
+     
+    let printa a =
+        printf $"%A{a}\n"
 
 
 module Array2D =
