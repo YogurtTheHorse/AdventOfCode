@@ -37,6 +37,7 @@ module Helpers =
 
 module Array2D =
     let get2 pos map = pos |> Helpers.t2 (Array2D.get map)
+    let set2 map pos = pos |> Helpers.t2 (Array2D.set map)
 
     let toSeq arr =
         seq {
