@@ -59,7 +59,7 @@ let rec step map pos direction visited =
     else
         step map nPos direction (addVisited ())
 
-[<DateInfo(2024, 6, AdventParts.PartTwo)>]
+[<DateInfo(2024, 6, AdventParts.All)>]
 type Day6() =
     inherit AdventSolution()
 
@@ -69,19 +69,10 @@ type Day6() =
         let guardPos = filterMap '^' map |> Seq.head
         let visited, _ = step map guardPos Direction.Up (Array2D.map (fun _ -> []) map)
 
-        filterArray
-            (function
-            | [] -> false
-            | _ -> true)
-            visited
-        |> Seq.distinct
-        |> Seq.length
-        |> (+) 1
-        :> obj
+        filterArray ((<>) []) visited |> Seq.distinct |> Seq.length |> (+) 1 :> obj
 
     override this.SolvePartTwo() =
         let map = this.Input.SquareMap()
-
         let guardPos = filterMap '^' map |> Seq.head
 
         filterMap '.' map

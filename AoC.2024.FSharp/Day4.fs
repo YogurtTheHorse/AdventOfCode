@@ -38,9 +38,7 @@ type Day4() =
                     for dx in -1 .. 1 do
                         for dy in -1 .. 1 -> (row, col), (dx, dy)
         }
-        |> Seq.where (function
-            | _, (0, 0) -> false
-            | _ -> true)
+        |> Seq.where (snd >> (<>) (0, 0))
         |> Seq.where (fun (p, d) -> (extract map 4 d p) = "XMAS")
         |> Seq.length
         :> obj

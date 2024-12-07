@@ -19,7 +19,7 @@ let canCalc canConcat res operands =
     | _ -> failwith "incorrect operands"
 
 
-[<DateInfo(2024, 7, AdventParts.PartTwo)>]
+[<DateInfo(2024, 7, AdventParts.All)>]
 type Day7() =
     inherit AdventSolution()
 

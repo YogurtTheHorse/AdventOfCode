@@ -24,12 +24,12 @@ let getSorted rules =
         |> Option.map (fun (xx, _) -> if xx = x then 1 else -11)
         |> Option.defaultValue 0)
 
-[<DateInfo(2024, 5, AdventParts.PartTwo)>]
+[<DateInfo(2024, 5, AdventParts.All)>]
 type Day5() =
     inherit AdventSolution()
 
-    override this.SolvePartOne() =
-        let rulesRaw, check =
+    member this.Solve isFirst =
+        let rulesRaw, checkRaw =
             this.Input.Raw.SmartSplit("\n\n")
             |> Array.map (_.SmartSplit("\n"))
             |> Array.map List.ofArray
@@ -40,29 +40,25 @@ type Day5() =
             |> List.map (fun x -> x.SmartSplit("|") |> Array.map int)
             |> List.map Tuple.ofArray2
 
-        check
-        |> List.map (fun x -> x.SmartSplit(",") |> Array.map int |> List.ofArray)
-        |> List.where (isGoodManual rules)
-        |> List.map (fun m -> m[m.Length / 2])
-        |> List.sum
-        :> obj
+        let check =
+            checkRaw
+            |> List.map (fun x -> x.SmartSplit(",") |> Array.map int |> List.ofArray)
 
-    override this.SolvePartTwo() =
-        let rulesRaw, check =
-            this.Input.Raw.SmartSplit("\n\n")
-            |> Array.map (_.SmartSplit("\n"))
-            |> Array.map List.ofArray
-            |> Tuple.ofArray2
+        if isFirst then
+            check
+            |> List.where (isGoodManual rules)
+            |> List.map (fun m -> m[m.Length / 2])
+            |> List.sum
+            :> obj
+        else
+            check
+            |> List.where (isGoodManual rules >> not)
+            |> List.map (getSorted rules)
+            |> List.map (fun m -> m[m.Length / 2])
+            |> List.sum
+            :> obj
 
-        let rules =
-            rulesRaw
-            |> List.map (fun x -> x.SmartSplit("|") |> Array.map int)
-            |> List.map Tuple.ofArray2
 
-        check
-        |> List.map (fun x -> x.SmartSplit(",") |> Array.map int |> List.ofArray)
-        |> List.where (isGoodManual rules >> not)
-        |> List.map (getSorted rules)
-        |> List.map (fun m -> m[m.Length / 2])
-        |> List.sum
-        :> obj
+    override this.SolvePartOne() = this.Solve true
+
+    override this.SolvePartTwo() = this.Solve false
