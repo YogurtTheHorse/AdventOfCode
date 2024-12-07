@@ -23,20 +23,15 @@ let canCalc canConcat res operands =
 type Day7() =
     inherit AdventSolution()
 
-    override this.SolvePartOne() =
+    member this.Solve isFirst =
         this.Input.Lines
         |> Array.map (_.SmartSplit(":"))
         |> Array.map (fun arr -> (int64 arr[0], arr[1] |> _.SmartSplit(" ") |> Array.map int64 |> List.ofArray))
-        |> Array.where (Helpers.t2 (canCalc false))
+        |> Array.where (Helpers.t2 (canCalc (not isFirst)))
         |> Array.map fst
         |> Array.sum
         :> obj
 
-    override this.SolvePartTwo() =
-        this.Input.Lines
-        |> Array.map (_.SmartSplit(":"))
-        |> Array.map (fun arr -> (int64 arr[0], arr[1] |> _.SmartSplit(" ") |> Array.map int64 |> List.ofArray))
-        |> Array.where (Helpers.t2 (canCalc true))
-        |> Array.map fst
-        |> Array.sum
-        :> obj
+    override this.SolvePartOne() = this.Solve true
+
+    override this.SolvePartTwo() = this.Solve false
