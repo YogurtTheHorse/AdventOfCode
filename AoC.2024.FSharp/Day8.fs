@@ -48,8 +48,7 @@ type Day8() =
         |> Seq.choose id
         |> Seq.groupBy fst
         |> Seq.map (snd >> Seq.map snd >> List.ofSeq)
-        |> Seq.map (getAntiNodes w h (not isFirst))
-        |> Seq.collect id
+        |> Seq.collect (getAntiNodes w h (not isFirst))
         |> Seq.distinct
         |> Seq.length
 
