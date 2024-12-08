@@ -45,8 +45,7 @@ type Day8() =
             for x in 0 .. (Array2D.length1 map - 1) do
                 for y in 0 .. (Array2D.length2 map - 1) -> if map[x, y] <> '.' then Some(map[x, y], (x, y)) else None
         }
-        |> Seq.where Option.isSome
-        |> Seq.map Option.get
+        |> Seq.choose id
         |> Seq.groupBy fst
         |> Seq.map (snd >> Seq.map snd >> List.ofSeq)
         |> Seq.map (getAntiNodes w h (not isFirst))

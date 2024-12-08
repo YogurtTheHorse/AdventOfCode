@@ -10,9 +10,7 @@ let isGoodManual rules pages =
         rules
         |> List.where (fst >> (=) p)
         |> List.map snd
-        |> List.map (fun s -> List.tryFindIndex ((=) s) pages)
-        |> List.where Option.isSome
-        |> List.map Option.get
+        |> List.choose (fun s -> List.tryFindIndex ((=) s) pages)
         |> List.forall ((<) i))
     |> List.forall id
 

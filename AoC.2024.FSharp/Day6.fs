@@ -31,8 +31,7 @@ let filterArray pred map =
         for x in 0 .. (Array2D.length1 map - 1) do
             for y in 0 .. (Array2D.length2 map - 1) -> if pred map[x, y] then Some(x, y) else None
     }
-    |> Seq.where Option.isSome
-    |> Seq.map Option.get
+    |> Seq.choose id
 
 let filterMap char map =
     filterArray ((=) char) map
