@@ -54,7 +54,7 @@ let removeBlock block blocks =
             cleanUp (newEmpty :: state) tail
         | head :: tail -> cleanUp (head :: state) tail
         | [] -> List.rev state
-        
+
     cleanUp [] simpleClear
 
 let printBlocks blocks =
@@ -100,7 +100,9 @@ let sortedSecond blocks =
             let currBlock = blocks[currBlockId]
 
             let firstAvailableId =
-                List.tryFindIndex (fun b -> b.Type = Empty && b.Length >= currBlock.Length && b.Pos < currBlock.Pos) blocks
+                List.tryFindIndex
+                    (fun b -> b.Type = Empty && b.Length >= currBlock.Length && b.Pos < currBlock.Pos)
+                    blocks
 
             match firstAvailableId with
             | Some i when blocks[i].Length = currBlock.Length ->
@@ -109,10 +111,11 @@ let sortedSecond blocks =
                     |> List.removeAt currBlockId
                     |> List.removeAt i
                     |> List.insertAt i { currBlock with Pos = blocks[i].Pos }
-                
+
                 sorted (currId - 1) newBlocks
             | Some i ->
                 let empty = blocks[i]
+
                 let newblocks =
                     blocks
                     |> List.removeAt currBlockId
@@ -123,7 +126,7 @@ let sortedSecond blocks =
                         { empty with
                             Pos = empty.Pos + currBlock.Length
                             Length = empty.Length - currBlock.Length }
-                    
+
                 sorted (currId - 1) newblocks
             | _ -> sorted (currId - 1) blocks
 
@@ -138,19 +141,11 @@ type Day9() =
     member this.Solve isFirst (sorted: Block list -> Block list) =
         let line = this.Input.Lines[0] |> Seq.map (string >> int) |> List.ofSeq
 
-        let blocks = buildBlocks isFirst 0 0 true line |> List.ofSeq
-        let sorted = sorted blocks
-
-        // printBlocks blocks
-        // printBlocks sorted
-
-        let hash =
-            sorted
-            |> List.where fileMatch
-            |> List.collect (fun b -> [ for i in 0 .. b.Length - 1 -> int64 b.Id * int64 (b.Pos + i) ])
-            |> List.sum
-
-        hash
+        buildBlocks isFirst 0 0 true line
+        |> List.ofSeq
+        |> sorted
+        |> List.where fileMatch
+        |> List.sumBy (fun b -> List.sum [ for i in 0 .. b.Length - 1 -> int64 b.Id * int64 (b.Pos + i) ])
 
     override this.SolvePartOne() =
         this.Solve true sortedFirst

@@ -37,8 +37,16 @@ module Helpers =
 
 module Array2D =
     let get2 pos map = pos |> Helpers.t2 (Array2D.get map)
+    let get2_ map pos = pos |> Helpers.t2 (Array2D.get map)
     let set2 map pos = pos |> Helpers.t2 (Array2D.set map)
 
+    let filterArray map pred =
+        seq {
+            for x in 0 .. (Array2D.length1 map - 1) do
+                for y in 0 .. (Array2D.length2 map - 1) -> if pred map[x, y] then Some(x, y) else None
+        }
+        |> Seq.choose id
+        
     let toSeq arr =
         seq {
             for y in 0 .. Array2D.length2 arr - 1 do
