@@ -15,9 +15,9 @@ let countFinishes map isFirst start =
     let isInside (x, y) =
         x >= 0 && y >= 0 && x < Array2D.length1 map && y < Array2D.length2 map
         
-    let rec findFinishes visited (x, y) =
+    let rec findFinishes (x, y) =
         if map[x, y] = 9 then
-            Seq.singleton ((x, y), visited)
+            Seq.singleton (x, y)
         else
             let next = map[x, y] + 1
             
@@ -25,13 +25,12 @@ let countFinishes map isFirst start =
             |> Seq.map (fun (ox, oy) -> (x + ox, y + oy))
             |> Seq.where isInside
             |> Seq.where (Array2D.get2_ map >> (=) next)
-            |> Seq.collect (findFinishes ((x, y) :: visited))
+            |> Seq.collect findFinishes
     
-    let finishes = findFinishes [] start
+    let finishes = findFinishes start
     
     if isFirst then
         finishes
-        |> Seq.map fst
         |> Seq.distinct
         |> Seq.length
     else
@@ -40,7 +39,7 @@ let countFinishes map isFirst start =
             
     
 
-[<DateInfo(2024, 10, AdventParts.PartTwo)>]
+[<DateInfo(2024, 10, AdventParts.All)>]
 [<CustomExample("89010123
 78121874
 87430965
@@ -58,8 +57,7 @@ type Day10() =
         
         starts
         |> Seq.map (countFinishes map isFirst)
-        |> List.ofSeq
-        |> Helpers.silent (printfn "%A")
+        |> Helpers.silent (List.ofSeq >> printfn "%A")
         |> Seq.sum
 
     override this.SolvePartOne() = this.Solve true
