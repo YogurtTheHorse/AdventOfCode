@@ -5,42 +5,38 @@ open AoC.Library.Runner
 open AoC.Library.Utils
 
 let i2024 = int64 2024
+let i1 = int64 1
 
-let blinkSimple (v: int64) =
-    if v = 0 then
-        [ int64 1 ]
-    else
-        let sv = string v
-
-        if sv.Length % 2 = 0 then
-            let s = string v
-            let a = int64 s[0 .. (s.Length / 2 - 1)]
-            let b = int64 s[(s.Length / 2) .. s.Length]
-
-            [ a; b ]
-        else
-            [ v * i2024 ]
 
 let rec calc (cache: Dictionary<int64 * int, int64>) times stone =
-    match cache.TryGetValue((stone, times)) with
-    | true, v -> v
-    | false, _ ->
-        let div = blinkSimple stone
+    if times <= 0 then
+       i1
+    else
+        match cache.TryGetValue((stone, times)) with
+        | true, v -> v
+        | false, _ ->
+            let s =
+                if stone = 0 then
+                    calc cache (times - 1) 1
+                else
+                    let sv = string stone
 
-        let s =
-            if times > 1 then
-                (div |> List.map (calc cache (times - 1)) |> List.sum)
-            else
-                List.length div
+                    if sv.Length % 2 = 0 then
+                        let a = int64 sv[0 .. (sv.Length / 2 - 1)]
+                        let b = int64 sv[(sv.Length / 2) .. sv.Length]
 
-        cache.Add((stone, times), s)
+                        (calc cache (times - 1) a) + (calc cache (times - 1) b)
+                    else
+                        calc cache (times - 1) (stone * i2024)
 
-        s
+            cache.Add((stone, times), s)
+
+            s
 
 
 
 [<DateInfo(2024, 11, AdventParts.All)>]
-[<CustomExample("125 17", "55312")>]
+[<CustomExample("125 17", "55312", "65601038650482")>]
 type Day11() =
     inherit AdventSolution()
 
