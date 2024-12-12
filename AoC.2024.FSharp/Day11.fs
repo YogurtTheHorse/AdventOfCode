@@ -40,13 +40,12 @@ let rec calc (cache: Dictionary<int64 * int, int64>) times stone =
 type Day11() =
     inherit AdventSolution()
 
-    member this.Solve isFirst =
+    member this.Solve times =
         let stones = this.Input.Lines[0].SmartSplit(" ") |> List.ofSeq |> List.map (int64)
-        let times = if isFirst then 25 else 75
         let cache = Dictionary<int64 * int, int64>()
 
         stones |> List.map (calc cache times) |> Seq.sum
 
-    override this.SolvePartOne() = this.Solve true
+    override this.SolvePartOne() = this.Solve 25
 
-    override this.SolvePartTwo() = this.Solve false
+    override this.SolvePartTwo() = this.Solve 75

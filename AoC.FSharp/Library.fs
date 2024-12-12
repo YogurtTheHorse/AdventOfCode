@@ -37,13 +37,19 @@ module Helpers =
 
 module Array2D =
     let get2 pos map = pos |> Helpers.t2 (Array2D.get map)
-    let get2_ map pos = pos |> Helpers.t2 (Array2D.get map)
-    let set2 map pos = pos |> Helpers.t2 (Array2D.set map)
+    let get2_ map = Helpers.t2 (Array2D.get map)
+    let set2 map = Helpers.t2 (Array2D.set map)
+    
+    let isInside map x y =
+        x >= 0 && y >= 0 && x < Array2D.length1 map && y < Array2D.length2 map
+    
+    let isInside2 map = Helpers.t2 (isInside map) 
 
     let filterArray map pred =
         seq {
             for x in 0 .. (Array2D.length1 map - 1) do
-                for y in 0 .. (Array2D.length2 map - 1) -> if pred map[x, y] then Some(x, y) else None
+                for y in 0 .. (Array2D.length2 map - 1) ->
+                    if pred map[x, y] then Some(x, y) else None
         }
         |> Seq.choose id
         
