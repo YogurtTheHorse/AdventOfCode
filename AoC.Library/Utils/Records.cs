@@ -18,16 +18,13 @@ public struct PointBase<T> : IEquatable<PointBase<T>> where T : INumber<T>
 
     public override string ToString() => $"({X}, {Y})";
 
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(X, Y);
-    }
+    public override int GetHashCode() => HashCode.Combine(X, Y);
 
     public bool InBounds(T width, T height) => X >= T.Zero && X < width && Y >= T.Zero && Y < height;
 
     public PointBase<T> Loop(T width, T height) => new(
-        (X + width * (T.Abs(X) / width)) % width,
-        (Y + height * (T.Abs(Y) / height)) % height
+        X.Loop(width),
+        Y.Loop(height)
     );
 
     public static (PointBase<T>, PointBase<T>) Bounds(PointBase<T> p1, PointBase<T> p2) => (Min(p1, p2), Max(p1, p2));
@@ -63,6 +60,10 @@ public struct PointBase<T> : IEquatable<PointBase<T>> where T : INumber<T>
     public static PointBase<T> operator -(PointBase<T> a, PointBase<T> b) => new(a.X - b.X, a.Y - b.Y);
 
     public static PointBase<T> operator *(PointBase<T> a, T v) => new(a.X * v, a.Y * v);
+
+    public static PointBase<T> operator %(PointBase<T> a, T v) => new(a.X % v, a.Y % v);
+
+    public static PointBase<T> operator %(PointBase<T> a, PointBase<T> b) => new(a.X % b.X, a.Y % b.Y);
 
     public static bool operator ==(PointBase<T> a, PointBase<T> b) => a.Equals(b);
 

@@ -1,6 +1,7 @@
 ﻿namespace AoC.FSharp
 
 open System
+open AoC.Library.Utils
 
 module Tuple =
     let ofArray2 =
@@ -22,6 +23,13 @@ module Tuple =
         function
         | [ a; b; c ] -> (a, b, c)
         | _ -> failwith "wrong array"
+        
+        
+    let ofPoint (p: PointBase<'a>) =
+        p.X, p.Y
+        
+module Point =
+    let ofTuple (x, y) = PointBase(x, y)
 
 module Helpers =
     let t2 foo (x, y) = foo x y
