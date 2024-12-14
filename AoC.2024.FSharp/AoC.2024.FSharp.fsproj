@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <RootNamespace>AoC._2024.FSharp</RootNamespace>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <LangVersion>default</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
@@ -20,11 +21,16 @@
       <Compile Include="Day11.fs" />
       <Compile Include="Day12.fs" />
       <Compile Include="Day13.fs" />
+      <Compile Include="Day14.fs" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\AoC.FSharp\AoC.FSharp.fsproj" />
       <ProjectReference Include="..\AoC.Library\AoC.Library.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Plotly.NET" Version="5.0.0" />
     </ItemGroup>
 
 </Project>
