@@ -82,24 +82,28 @@ type Day13() =
             |> Helpers.silent (printf "%A")
             |> List.fold (*) 1
         else
-            for i in 1..1000000 do
-                robots
-                |> List.map ((moveRobot i) >> _.Pos >> Tuple.ofPoint)
-                |> fillFreq 
+            let dispersion (poses: Point list) =
+                let average = (List.sum poses) / (List.length poses)
                 
-            for y in 0..h - 1 do
-                for x in 0..w - 1 do
-                    printf $"%d{Array2D.get freqMap x y},"
-                printfn ""
+                poses
+                |> List.map (((-) average) >> _.Length())
+                |> List.sum
+            
+            let rec findMin timeSpend (minTime, currMin) robots =
+                if timeSpend >= 100000 then
+                    minTime + 1
+                else
+                    let newRobots = robots |> List.map (moveRobot 1)
+                    let newVal = dispersion (newRobots |> List.map (_.Pos))
+                    
+                    if newVal < currMin then
+                        printRobots newRobots
+                        printfn $"%A{timeSpend + 1}"
+                        findMin (timeSpend + 1) (timeSpend, newVal) newRobots
+                    else
+                        findMin (timeSpend + 1) (minTime, currMin) newRobots
                 
-            let newFreq = Seq.init h (fun y -> Seq.init w (fun x -> Array2D.get freqMap x y))
-            
-            Chart.Heatmap(zData=newFreq)
-            |> Chart.withSize(700.,500.)
-            |> Chart.withMarginSize(Left=200.)
-            |> Chart.show
-            
-            0
+            findMin 0 (0, 999999999999f) robots
 
 
     override this.SolvePartOne() = this.Solve true

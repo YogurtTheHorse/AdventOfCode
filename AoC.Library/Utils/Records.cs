@@ -41,7 +41,7 @@ public struct PointBase<T> : IEquatable<PointBase<T>> where T : INumber<T>
 
     public static PointBase<T> Left { get; } = new(-T.One, T.Zero);
 
-    public static PointBase<T> Zero { get; } = new(T.Zero, T.Zero);
+    public static PointBase<T> Zero { get; } = new(T.Zero, T.Zero); 
 
     public static implicit operator (T, T)(PointBase<T> p) => (p.X, p.Y);
 
@@ -60,6 +60,8 @@ public struct PointBase<T> : IEquatable<PointBase<T>> where T : INumber<T>
     public static PointBase<T> operator -(PointBase<T> a, PointBase<T> b) => new(a.X - b.X, a.Y - b.Y);
 
     public static PointBase<T> operator *(PointBase<T> a, T v) => new(a.X * v, a.Y * v);
+
+    public static PointBase<T> operator /(PointBase<T> a, T v) => new(a.X / v, a.Y / v);
 
     public static PointBase<T> operator %(PointBase<T> a, T v) => new(a.X % v, a.Y % v);
 
