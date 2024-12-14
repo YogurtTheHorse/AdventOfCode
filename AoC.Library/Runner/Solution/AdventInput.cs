@@ -2,7 +2,7 @@ using AoC.Library.Utils;
 
 namespace AoC.Library.Runner;
 
-public record AdventInput(string Raw, bool Print)
+public record AdventInput(string Raw, bool Print, bool IsExample)
 {
     private readonly Lazy<string[]> _lines = new(() => Raw.SmartSplit("\n"));
     private readonly Lazy<string[]> _fullLines = new(() => Raw.Split("\n"));
@@ -33,6 +33,4 @@ public record AdventInput(string Raw, bool Print)
     public char this[PointBase<int> p] => Lines[p.Y][p.X];
 
     public string this[int y] => Lines[y];
-
-    public static implicit operator AdventInput(string s) => new(s, false);
 }

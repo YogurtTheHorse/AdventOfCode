@@ -34,7 +34,8 @@ public class AdventRunner
 
         foreach (var solutionType in solutionTypes)
         {
-            foreach (var part in new[] {
+            foreach (var part in new[]
+                     {
                          AdventParts.PartOne, AdventParts.PartTwo
                      })
             {
@@ -54,11 +55,21 @@ public class AdventRunner
                 foreach (var runConfig in runConfigs)
                 {
                     var solution = Activator.CreateInstance(solutionType) as AdventSolution;
+                    var runFlags = RunFlags.None;
+
+                    if (config.PrintInput.HasFlag(runConfig.RunType))
+                    {
+                        runFlags |= RunFlags.PrintInput;
+                    }
+
+                    if (config.PrintOutput.HasFlag(runConfig.RunType))
+                    {
+                        runFlags |= RunFlags.PrintOutput;
+                    }
 
                     await Run(
                         runConfig,
-                        config.PrintInput.HasFlag(runConfig.RunType),
-                        config.PrintOutput.HasFlag(runConfig.RunType),
+                        runFlags,
                         part,
                         solution!
                     );
@@ -71,7 +82,7 @@ public class AdventRunner
         }
     }
 
-    private async Task Run(RunConfig config, bool printInput, bool printOutput, AdventParts part, AdventSolution solution)
+    private async Task Run(RunConfig config, RunFlags runFlags, AdventParts part, AdventSolution solution)
     {
         Func<object> run = part == AdventParts.PartOne
             ? solution.SolvePartOne
@@ -79,7 +90,7 @@ public class AdventRunner
 
         Console.WriteLine($"Running part {(int)part} for {config.Description}...", Color.Gold);
 
-        if (printInput)
+        if (runFlags.HasFlag(RunFlags.PrintInput))
         {
             Console.WriteLine(config.Input);
         }
@@ -89,7 +100,12 @@ public class AdventRunner
 
         try
         {
-            solution.Input = new AdventInput(config.Input, printOutput);
+            solution.Input = new AdventInput(
+                config.Input,
+                runFlags.HasFlag(RunFlags.PrintOutput),
+                config.RunType == RunType.Example
+            );
+
             var result = run().ToString()!;
 
             Console.Write("Answer is ");
@@ -193,7 +209,8 @@ public class AdventRunner
             {
                 customRun.ThrowIfInvalid();
 
-                var input = customRun switch {
+                var input = customRun switch
+                {
                     { Filename: not null } => await _fetcher.GetInput(new InputDescription(customRun.Filename)),
                     { InputString: not null } => customRun.InputString,
                     _ => string.Empty
