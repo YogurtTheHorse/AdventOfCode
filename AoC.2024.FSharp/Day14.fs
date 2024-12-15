@@ -25,7 +25,7 @@ let parseRobot (s: string) =
 
 
 [<DateInfo(2024, 14, AdventParts.PartTwo)>]
-type Day13() =
+type Day14() =
     inherit AdventSolution()
 
     member this.Solve isFirst =
@@ -86,7 +86,7 @@ type Day13() =
                 let average = (List.sum poses) / (List.length poses)
                 
                 poses
-                |> List.map (((-) average) >> _.Length())
+                |> List.map (((-) average) >> Point.length)
                 |> List.sum
             
             let rec findMin timeSpend (minTime, currMin) robots =

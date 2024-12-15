@@ -22,6 +22,8 @@ public struct PointBase<T> : IEquatable<PointBase<T>> where T : INumber<T>
 
     public bool InBounds(T width, T height) => X >= T.Zero && X < width && Y >= T.Zero && Y < height;
 
+    public float Length => MathF.Sqrt(Convert.ToSingle(X * X + Y * Y));
+
     public PointBase<T> Loop(T width, T height) => new(
         X.Loop(width),
         Y.Loop(height)

@@ -42,6 +42,8 @@ module Point =
 
     let bounds p1 p2 =
         PointBase.Bounds(p1, p2)
+        
+    let length (p1: PointBase<'a>) = p1.Length
 
     let isInBounds w h (p: PointBase<'a>) = p.InBounds(w, h)
 
