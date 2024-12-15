@@ -3,6 +3,7 @@
 open System
 open AoC.Library.Utils
 
+
 module Tuple =
     let ofArray2 =
         function
@@ -23,13 +24,26 @@ module Tuple =
         function
         | [ a; b; c ] -> (a, b, c)
         | _ -> failwith "wrong array"
-        
-        
-    let ofPoint (p: PointBase<'a>) =
-        p.X, p.Y
-        
+
+
+    let ofPoint (p: PointBase<'a>) = p.X, p.Y
+
 module Point =
     let ofTuple (x, y) = PointBase(x, y)
+
+    let ofArray a =
+        a |> Tuple.ofArray2 |> PointBase
+
+    let min p1 p2 =
+        PointBase.Min(p1, p2)
+
+    let max p1 p2 =
+        PointBase.Max(p1, p2)
+
+    let bounds p1 p2 =
+        PointBase.Bounds(p1, p2)
+
+    let isInBounds w h (p: PointBase<'a>) = p.InBounds(w, h)
 
 module Helpers =
     let t2 foo (x, y) = foo x y
@@ -38,29 +52,32 @@ module Helpers =
     let silent f x =
         f x
         x
-     
-    let printa a =
-        printf $"%A{a}\n"
+
+    let printa a = printf $"%A{a}"
+
+    let printan a = printfn $"%A{a}"
 
 
 module Array2D =
-    let get2 pos map = pos |> Helpers.t2 (Array2D.get map)
-    let get2_ map = Helpers.t2 (Array2D.get map)
-    let set2 map = Helpers.t2 (Array2D.set map)
-    
+    let get2 map =
+        Helpers.t2 (Array2D.get map)
+
+    let set2 map =
+        Helpers.t2 (Array2D.set map)
+
     let isInside map x y =
         x >= 0 && y >= 0 && x < Array2D.length1 map && y < Array2D.length2 map
-    
-    let isInside2 map = Helpers.t2 (isInside map) 
+
+    let isInside2 map =
+        Helpers.t2 (isInside map)
 
     let filterArray map pred =
         seq {
             for x in 0 .. (Array2D.length1 map - 1) do
-                for y in 0 .. (Array2D.length2 map - 1) ->
-                    if pred map[x, y] then Some(x, y) else None
+                for y in 0 .. (Array2D.length2 map - 1) -> if pred map[x, y] then Some(x, y) else None
         }
         |> Seq.choose id
-        
+
     let toSeq arr =
         seq {
             for y in 0 .. Array2D.length2 arr - 1 do
@@ -103,10 +120,12 @@ module String =
 
         a
 
-    let isEmpty s = System.String.IsNullOrEmpty(s)
+    let isEmpty s =
+        System.String.IsNullOrEmpty(s)
 
     let containsChar (c: char) (s: string) = s.Contains(c)
 
     let containsChar2 (s: string) (c: char) = s.Contains(c)
 
-    let halves (s: string) = s[.. s.Length / 2], s[s.Length / 2 ..]
+    let halves (s: string) =
+        s[.. s.Length / 2], s[s.Length / 2 ..]

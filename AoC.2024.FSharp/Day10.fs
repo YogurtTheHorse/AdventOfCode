@@ -24,7 +24,7 @@ let countFinishes map isFirst start =
             offsets
             |> Seq.map (fun (ox, oy) -> (x + ox, y + oy))
             |> Seq.where isInside
-            |> Seq.where (Array2D.get2_ map >> (=) next)
+            |> Seq.where (Array2D.get2 map >> (=) next)
             |> Seq.collect findFinishes
     
     let finishes = findFinishes start

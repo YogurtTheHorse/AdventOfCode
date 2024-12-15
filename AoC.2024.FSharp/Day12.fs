@@ -11,11 +11,11 @@ let offsets = [ (0, 1); (1, 0); (0, -1); (-1, 0) ]
 let rec markRegions map regionsMap nextRegion =
     function
     | p :: tail ->
-        match Array2D.get2_ regionsMap p with
+        match Array2D.get2 regionsMap p with
         | -1 ->
             let rec markAll queue =
                 match queue with
-                | curr :: qtail when (Array2D.get2_ regionsMap curr) <> -1 -> markAll qtail
+                | curr :: qtail when (Array2D.get2 regionsMap curr) <> -1 -> markAll qtail
                 | (x, y) as curr :: qtail ->
                     Array2D.set2 regionsMap curr nextRegion
 
@@ -26,8 +26,8 @@ let rec markRegions map regionsMap nextRegion =
 
                     let nextNeig =
                         neig
-                        |> Seq.where (Array2D.get2_ map >> (=) map[x, y])
-                        |> Seq.where (Array2D.get2_ regionsMap >> (=) -1)
+                        |> Seq.where (Array2D.get2 map >> (=) map[x, y])
+                        |> Seq.where (Array2D.get2 regionsMap >> (=) -1)
                         |> List.ofSeq
 
                     markAll (qtail @ nextNeig)
@@ -50,7 +50,7 @@ let calcRegionPrice regionToChar regionsMap isFirst region =
         |> Seq.collect (fun (x, y) ->
             offsets
             |> Seq.map (fun (ox, oy as o) -> (ox + x, oy + y), o)
-            |> Seq.where (fun (p, _) -> (isInside p |> not) || (Array2D.get2_ regionsMap p) <> region))
+            |> Seq.where (fun (p, _) -> (isInside p |> not) || (Array2D.get2 regionsMap p) <> region))
         |> List.ofSeq
 
     let perm =
@@ -110,7 +110,7 @@ type Day12() =
         let regionsCount = markRegions map regionsMap 0 points
 
         let regionsToChar region =
-            Array2D.filterArray regionsMap ((=) region) |> Seq.head |> Array2D.get2_ map
+            Array2D.filterArray regionsMap ((=) region) |> Seq.head |> Array2D.get2 map
 
         // this.printMap regionsMap
         // this.printMap map

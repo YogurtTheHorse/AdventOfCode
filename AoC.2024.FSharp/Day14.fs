@@ -54,7 +54,7 @@ type Day13() =
             
         let fillFreq poses =
             for pos in poses do
-                let v = Array2D.get2_ freqMap pos 
+                let v = Array2D.get2 freqMap pos 
                 Array2D.set2 freqMap pos (v + 1) 
 
         let quadr (v: Point) =

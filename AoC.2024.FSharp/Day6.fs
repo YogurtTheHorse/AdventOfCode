@@ -44,16 +44,16 @@ let rec step map pos direction visited =
     let nx, ny = nPos
 
     let addVisited () =
-        let curr = Array2D.get2 pos visited
+        let curr = Array2D.get2 visited pos
         Array2D.set2 visited pos (direction :: curr)
 
         visited
 
     if nx < 0 || nx >= w || ny < 0 || ny >= h then
         visited, false
-    elif List.contains direction (Array2D.get2 pos visited) then
+    elif List.contains direction (Array2D.get2 visited pos) then
         visited, true
-    elif Array2D.get2 nPos map = '#' then
+    elif Array2D.get2 map nPos = '#' then
         step map pos (nextDir direction) (addVisited ())
     else
         step map nPos direction (addVisited ())
