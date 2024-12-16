@@ -24,6 +24,15 @@ let mapChar =
     | '@' -> Robot
     | _ -> Empty
 
+let ttoc =
+    function
+    | Wall -> '#'
+    | Box -> 'O'
+    | Robot -> '@'
+    | BoxLeft -> '['
+    | BoxRight -> ']'
+    | _ -> '.'
+
 let ctod =
     function
     | '^' -> Direction.Up
@@ -76,15 +85,6 @@ let rec tryPush map pos (dir: Direction) =
         true
     else
         false
-
-let ttoc =
-    function
-    | Wall -> '#'
-    | Box -> 'O'
-    | Robot -> '@'
-    | BoxLeft -> '['
-    | BoxRight -> ']'
-    | _ -> '.'
 
 let rec act map pos =
     function
