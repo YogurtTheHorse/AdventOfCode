@@ -33,6 +33,8 @@ module Point =
 
     let ofArray a =
         a |> Tuple.ofArray2 |> PointBase
+        
+    let ofDir (d: Direction) = PointBase.op_Implicit d
 
     let min p1 p2 =
         PointBase.Min(p1, p2)
@@ -61,6 +63,9 @@ module Helpers =
 
 
 module Array2D =
+    let getp map (p: PointBase<int>) = Array2D.get map p.X p.Y 
+    let setp map (p: PointBase<int>) v = Array2D.set map p.X p.Y v 
+        
     let get2 map =
         Helpers.t2 (Array2D.get map)
 
@@ -72,6 +77,8 @@ module Array2D =
 
     let isInside2 map =
         Helpers.t2 (isInside map)
+
+    let isInsideP map (p: PointBase<int>) = isInside map p.X p.Y
 
     let filterArray map pred =
         seq {
