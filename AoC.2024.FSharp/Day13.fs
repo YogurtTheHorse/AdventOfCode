@@ -23,7 +23,7 @@ let splitBy len list =
 
 let parseTask isFirst raw =
     let parseV (btn: string) =
-        let (xs, ys) =
+        let xs, ys =
             btn.SmartSplit(" ")
             |> Array.rev
             |> Array.take 2
@@ -37,7 +37,7 @@ let parseTask isFirst raw =
     | [ aStr; bStr; prizeStr ] ->
         let a = parseV aStr
         let b = parseV bStr
-        let (px, py) = parseV prizeStr
+        let px, py = parseV prizeStr
 
         let p =
             if isFirst then

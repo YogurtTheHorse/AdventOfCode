@@ -33,8 +33,9 @@ module Point =
 
     let ofArray a =
         a |> Tuple.ofArray2 |> PointBase
-        
-    let ofDir (d: Direction) = PointBase.op_Implicit d
+
+    let ofDir (d: Direction) =
+        PointBase.op_Implicit d
 
     let min p1 p2 =
         PointBase.Min(p1, p2)
@@ -44,7 +45,7 @@ module Point =
 
     let bounds p1 p2 =
         PointBase.Bounds(p1, p2)
-        
+
     let length (p1: PointBase<'a>) = p1.Length
 
     let isInBounds w h (p: PointBase<'a>) = p.InBounds(w, h)
@@ -63,9 +64,12 @@ module Helpers =
 
 
 module Array2D =
-    let getp map (p: PointBase<int>) = Array2D.get map p.X p.Y 
-    let setp map (p: PointBase<int>) v = Array2D.set map p.X p.Y v 
-        
+    let getp map (p: PointBase<int>) =
+        Array2D.get map p.X p.Y
+
+    let setp map (p: PointBase<int>) v =
+        Array2D.set map p.X p.Y v
+
     let get2 map =
         Helpers.t2 (Array2D.get map)
 
@@ -78,7 +82,8 @@ module Array2D =
     let isInside2 map =
         Helpers.t2 (isInside map)
 
-    let isInsideP map (p: PointBase<int>) = isInside map p.X p.Y
+    let isInsideP map (p: PointBase<int>) =
+        isInside map p.X p.Y
 
     let filterArray map pred =
         seq {
@@ -95,7 +100,11 @@ module Array2D =
         }
 
 module List =
-    let containsRev lst v = List.contains v lst
+    let removeAt i list =
+        list
+        |> List.mapi (fun i e -> i, e)
+        |> List.where (fst >> ((<>) i))
+        |> List.map snd
 
     let split elem arr =
         Seq.fold
@@ -128,6 +137,12 @@ module String =
             |> List.ofSeq
 
         a
+
+    let startsWith (s: string) (sub: string) = s.StartsWith(sub)
+
+    let startsWithFrom (s: string) f (sub: string) = s.Substring(f).StartsWith(sub)
+
+    let length (s: string) = s.Length
 
     let isEmpty s =
         System.String.IsNullOrEmpty(s)
