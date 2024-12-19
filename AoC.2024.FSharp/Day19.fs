@@ -8,11 +8,10 @@ open AoC.Library.Utils
 open FSharpx.Collections
 
 
-
-
 let buildsCount parts pattern =
-    let cache = Dictionary<int, int64>() 
-    let rec innBuildsCount i = 
+    let cache = Dictionary<int, int64>()
+
+    let rec innBuildsCount i =
         if i < String.length pattern then
             match cache.TryGetValue(i) with
             | true, v -> v
@@ -28,7 +27,7 @@ let buildsCount parts pattern =
                 v
         else
             1
-    
+
     innBuildsCount 0
 
 [<DateInfo(2024, 19, AdventParts.PartTwo)>]
@@ -44,7 +43,7 @@ type Day18() =
             |> List.ofSeq
 
         Helpers.printan <| buildsCount parts "bggr"
-        
+
         let counts =
             patterns
             |> List.map (buildsCount parts)
