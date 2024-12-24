@@ -4,7 +4,7 @@ namespace AoC.Library.Runner;
 
 public record AdventInput(string Raw, bool Print, bool IsExample)
 {
-    private readonly Lazy<string[]> _lines = new(() => Raw.SmartSplit("\n"));
+    private readonly Lazy<string[]> _lines = new(() => Raw.Replace("<em>", "").Replace("</em>", "").SmartSplit("\n"));
     private readonly Lazy<string[]> _fullLines = new(() => Raw.Split("\n"));
 
     public string[] Lines => _lines.Value;

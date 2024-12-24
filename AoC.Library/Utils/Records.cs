@@ -22,6 +22,8 @@ public struct PointBase<T> : IEquatable<PointBase<T>> where T : INumber<T>
 
     public bool InBounds(T width, T height) => X >= T.Zero && X < width && Y >= T.Zero && Y < height;
 
+    public bool InBounds(PointBase<T> mn, PointBase<T> mx) => X >= mn.X && X <= mx.X && Y >= mn.X && Y <= mx.Y;
+
     public float Length => MathF.Sqrt(Convert.ToSingle(X * X + Y * Y));
 
     public PointBase<T> Loop(T width, T height) => new(
@@ -43,13 +45,14 @@ public struct PointBase<T> : IEquatable<PointBase<T>> where T : INumber<T>
 
     public static PointBase<T> Left { get; } = new(-T.One, T.Zero);
 
-    public static PointBase<T> Zero { get; } = new(T.Zero, T.Zero); 
+    public static PointBase<T> Zero { get; } = new(T.Zero, T.Zero);
 
     public static implicit operator (T, T)(PointBase<T> p) => (p.X, p.Y);
 
     public static implicit operator PointBase<T>((T, T) tuple) => new(tuple.Item1, tuple.Item2);
 
-    public static implicit operator PointBase<T>(Direction dir) => dir switch {
+    public static implicit operator PointBase<T>(Direction dir) => dir switch
+    {
         Direction.Up => Up,
         Direction.Right => Right,
         Direction.Down => Down,

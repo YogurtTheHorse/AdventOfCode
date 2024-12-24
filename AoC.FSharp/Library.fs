@@ -48,7 +48,9 @@ module Point =
 
     let length (p1: PointBase<'a>) = p1.Length
 
-    let isInBounds w h (p: PointBase<'a>) = p.InBounds(w, h)
+    let isInBounds w (h: 'a) (p: PointBase<'a>) = p.InBounds(w, h)
+        
+    let isInBounds2 b1 (b2: PointBase<'a>) (p: PointBase<'a>) = p.InBounds(b1, b2)
 
 module Helpers =
     let t2 foo (x, y) = foo x y
@@ -143,6 +145,8 @@ module String =
     let startsWithFrom (s: string) f (sub: string) = s.Substring(f).StartsWith(sub)
 
     let length (s: string) = s.Length
+    
+    let longLength (s: string) = int64 s.Length
 
     let isEmpty s =
         System.String.IsNullOrEmpty(s)
